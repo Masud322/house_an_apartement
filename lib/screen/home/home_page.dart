@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:house_an_apartement/firebase/form.dart';
+import 'package:house_an_apartement/firebase/form_2.dart';
 import 'package:house_an_apartement/screen/home/widget/categories.dart';
 import 'package:house_an_apartement/screen/home/widget/recommended_house.dart';
 import 'package:house_an_apartement/screen/home/widget/search_input.dart';
@@ -44,7 +46,9 @@ class HomePage extends StatelessWidget {
           FloatingActionButton(
             heroTag: 'add',
             onPressed: () {
-              // Perform action for first button
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DropdownExample()),);
             },
             child: const Icon(Icons.add),
           ),
@@ -52,7 +56,9 @@ class HomePage extends StatelessWidget {
           FloatingActionButton(
             heroTag: 'message',
             onPressed: () {
-              // Perform action for second button
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DropdownTextField()),);
             },
             child: const Icon(Icons.message_outlined),
           ),
