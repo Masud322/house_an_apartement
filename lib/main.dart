@@ -1,13 +1,13 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:house_an_apartement/screen/home/home_page.dart';
+import 'package:house_an_apartement/firebase/signup.dart';
 
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp()); 
+  runApp(const MyApp()); 
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +25,9 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.amber
       ),
       home: Scaffold(
-        body: HomePage()
+        body: 
+        // HomePage(),
+        SignUp(),
       ),
     );
   }
