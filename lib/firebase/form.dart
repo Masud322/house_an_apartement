@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:house_an_apartement/firebase/test.dart';
 import 'package:house_an_apartement/screen/home/home_page.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -18,7 +19,9 @@ class _DropdownExampleState extends State<DropdownExample> {
   // final ImagePicker _picker = ImagePicker();
   // final List<XFile>? images = await _picker.pickMultiImage();
 
-  late String selectedValue1;
+  String? _selectedDivision;
+  String? _selectedDistrict;
+  String? _selectedArea;
   late String selectedValue2;
   late String selectedValue3;
   late String selectedValue4;
@@ -33,7 +36,6 @@ class _DropdownExampleState extends State<DropdownExample> {
   @override
   void initState() {
     super.initState();
-    selectedValue1 = '';
     selectedValue2 = '';
     selectedValue3 = '';
     selectedValue4 = '';
@@ -51,14 +53,19 @@ class _DropdownExampleState extends State<DropdownExample> {
       appBar: AppBar(
         backgroundColor: Colors.purple,
       ),
-      body: Form(
+      body: 
+      
+      
+      Form(
         child: SingleChildScrollView(
           child: Column(
             children: [
               Column(
                 children: [
+                  const Padding(padding: EdgeInsets.all(15),
+                  child: Text('Create Post',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.purple,),),),
                   Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.only(left: 25,right: 25,top: 10,bottom: 10),
                     child: TextFormField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -73,46 +80,132 @@ class _DropdownExampleState extends State<DropdownExample> {
                     ),
                   ),
                   Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection('location')
-                            .snapshots(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (!snapshot.hasData) {
-                            return const CircularProgressIndicator();
-                          }
-                          List<String> items = [];
-                          for (var doc in snapshot.data!.docs) {
-                            items.add(doc['name']);
-                          }
-                          if (selectedValue1 == '' && items.isNotEmpty) {
-                            selectedValue1 = items[0];
-                          }
-                          return DropdownButtonFormField(
-                            decoration: InputDecoration(
-                                label: const Text('Select Location'),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                )),
-                            items: items.map((item) {
-                              return DropdownMenuItem(
-                                value: item,
-                                child: Text(item),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedValue1 = value!;
-                              });
-                            },
-                            value: selectedValue1,
+                    padding: const EdgeInsets.only(left: 25,right: 25,top: 10,bottom: 10),
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('Divisions')
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (!snapshot.hasData) {
+                          return const CircularProgressIndicator();
+                        }
+
+                        final List<DropdownMenuItem<String>> divisionItems = [];
+                        snapshot.data!.docs.forEach((divisionDoc) {
+                          final String divisionName = divisionDoc['name'];
+                          divisionItems.add(
+                            DropdownMenuItem(
+                              value: divisionName,
+                              child: Text(divisionName),
+                            ),
                           );
-                        },
-                      )),
+                        });
+
+                        return DropdownButtonFormField<String>(
+                          value: _selectedDivision,
+                          items: divisionItems,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedDivision = value;
+                              _selectedDistrict = null;
+                              _selectedArea = null;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                            labelText: 'Division',
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                   Padding(
-                      padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.only(left: 25,right: 25,top: 10,bottom: 10),
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('Districts')
+                          .where('division', isEqualTo: _selectedDivision)
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (!snapshot.hasData) {
+                          return const CircularProgressIndicator();
+                        }
+
+                        final List<DropdownMenuItem<String>> districtItems = [];
+                        snapshot.data!.docs.forEach((districtDoc) {
+                          final String districtName = districtDoc['name'];
+                          districtItems.add(
+                            DropdownMenuItem(
+                              value: districtName,
+                              child: Text(districtName),
+                            ),
+                          );
+                        });
+
+                        return DropdownButtonFormField<String>(
+                          value: _selectedDistrict,
+                          items: districtItems,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedDistrict = value;
+                              _selectedArea = null;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                            labelText: 'District',
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25,right: 25,top: 10,bottom: 10),
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('Areas')
+                          .where('district', isEqualTo: _selectedDistrict)
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (!snapshot.hasData) {
+                          return const CircularProgressIndicator();
+                        }
+
+                        final List<DropdownMenuItem<String>> areaItems = [];
+                        snapshot.data!.docs.forEach((areaDoc) {
+                          final String areaName = areaDoc['name'];
+                          areaItems.add(
+                            DropdownMenuItem(
+                              value: areaName,
+                              child: Text(areaName),
+                            ),
+                          );
+                        });
+
+                        return DropdownButtonFormField<String>(
+                          value: _selectedArea,
+                          items: areaItems,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedArea = value;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                            labelText: 'Area',
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(left: 25,right: 25,top: 10,bottom: 10),
                       child: StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection('category')
@@ -151,7 +244,7 @@ class _DropdownExampleState extends State<DropdownExample> {
                         },
                       )),
                   Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.only(left: 25,right: 25,top: 10,bottom: 10),
                       child: StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection('gender')
@@ -196,7 +289,7 @@ class _DropdownExampleState extends State<DropdownExample> {
                   SizedBox(
                     width: 200,
                     child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.only(left: 25,right: 10,top: 10,bottom: 10),
                         child: StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
                               .collection('bedroom')
@@ -238,7 +331,7 @@ class _DropdownExampleState extends State<DropdownExample> {
                   SizedBox(
                     width: 200,
                     child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(left: 10,right: 22,top: 10,bottom: 10),
                         child: StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
                               .collection('bathroom')
@@ -284,7 +377,7 @@ class _DropdownExampleState extends State<DropdownExample> {
                   SizedBox(
                     width: 200,
                     child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.only(left: 25,right: 10,top: 10,bottom: 10),
                         child: StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
                               .collection('kitchen')
@@ -326,7 +419,7 @@ class _DropdownExampleState extends State<DropdownExample> {
                   SizedBox(
                     width: 200,
                     child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(left: 10,right: 22,top: 10,bottom: 10),
                         child: StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
                               .collection('parking')
@@ -371,7 +464,7 @@ class _DropdownExampleState extends State<DropdownExample> {
                 children: [
                   SizedBox(
                     child: Padding(
-                        padding: const EdgeInsets.all(12.0),
+                        padding: const EdgeInsets.only(left: 25,right: 25,top: 10,bottom: 10),
                         child: StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
                               .collection('free month')
@@ -414,8 +507,9 @@ class _DropdownExampleState extends State<DropdownExample> {
                   SizedBox(
                     width: 200,
                     child: Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.only(left: 25,right: 25,top: 10,bottom: 10),
                       child: TextFormField(
+                        keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -437,7 +531,7 @@ class _DropdownExampleState extends State<DropdownExample> {
                   //     ),
                   // ),
                   Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.only(left: 25,right: 25,top: 10,bottom: 10),
                     child: TextFormField(
                       minLines: 1,
                       maxLines: 50,
@@ -459,7 +553,9 @@ class _DropdownExampleState extends State<DropdownExample> {
                           'name': textvalue1,
                           'price': textvalue2,
                           'about': textvalue3,
-                          'location': selectedValue1,
+                          'division': _selectedDivision,
+                          'district': _selectedDistrict,
+                          'area': _selectedArea,
                           'category': selectedValue2,
                           'gender': selectedValue3,
                           'bedroom': selectedValue4,
@@ -485,14 +581,17 @@ class _DropdownExampleState extends State<DropdownExample> {
                                     child: Container(
                                       color: Colors.blue,
                                       padding: const EdgeInsets.all(12),
-                                      child: const Text("okay",style: TextStyle(color: Colors.black),),
+                                      child: const Text(
+                                        "okay",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                             ));
                       },
-                      child: Text('Submit'))
+                      child: const Text('Submit'))
                 ],
               ),
             ],
