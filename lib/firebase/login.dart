@@ -76,6 +76,9 @@ class _LoginState extends State<Login> {
                       height: 40,
                     ),
                  const Text('Welcome Back',style: TextStyle(fontSize: 32,fontWeight: FontWeight.bold,color: Colors.black),),
+                 const SizedBox(
+                  height: 3,
+                 ),
                  const Text('Sign to continue',style: TextStyle(fontSize: 15,color: Colors.black54),),
                   ],
                 ),

@@ -55,38 +55,19 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: 
-         SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // WelcomeText(),
-              // SearchPage(),
-              
-              Padding(padding: EdgeInsets.only(left: 21,top: 10,bottom: 10),
-                child: Container(
-                  padding: const EdgeInsets.only(bottom: 4.0),
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.purple,
-                        width: 2.0,
-                      ),
-                    ),
-                  ),
-                  child: const Text(
-                    'All Post Here',
-                    style: TextStyle(
-                      fontSize: 16.0,fontWeight: FontWeight.bold,color: Colors.purple
-                    ),
-                  ),
-                ),
-              ),
-
-              AllPost(),
-              // Near_you(),
-            ],
-          ),
-        ),
+         SafeArea(
+           child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                WelcomeText(),
+                // SearchPage(),
+                AllPost(),
+                // Near_you(),
+              ],
+            ),
+                 ),
+         ),
       
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,

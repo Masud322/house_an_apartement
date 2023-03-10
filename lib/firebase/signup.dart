@@ -235,7 +235,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                         const SizedBox(
-                          height: 50,
+                          height: 33,
                         ),
                         Container(
                           height: 48,
@@ -258,6 +258,9 @@ class _SignUpState extends State<SignUp> {
                                   color: Colors.white),
                             ),
                           ),
+                        ),
+                        SizedBox(
+                          height: 8,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

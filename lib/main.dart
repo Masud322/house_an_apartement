@@ -1,6 +1,7 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:house_an_apartement/firebase/login.dart';
 import 'package:house_an_apartement/firebase/signup.dart';
 import 'package:house_an_apartement/screen/home/home_page.dart';
 
@@ -25,10 +26,11 @@ class MyApp extends StatelessWidget {
         // ignore: deprecated_member_use
         accentColor: Colors.amber
       ),
-      home: Scaffold(
+      home: const Scaffold(
         body: 
-        HomePage(),
+        // HomePage(),
         // SignUp(),
+        Login(),
       ),
     );
   }
