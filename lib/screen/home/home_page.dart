@@ -1,14 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:house_an_apartement/firebase/form.dart';
-import 'package:house_an_apartement/firebase/house_details_page.dart';
+import 'package:house_an_apartement/firebase/form_Page.dart';
+
+
+import 'package:house_an_apartement/firebase/image.dart';
 import 'package:house_an_apartement/firebase/location.dart';
+
 import 'package:house_an_apartement/firebase/profile.dart';
 import 'package:house_an_apartement/firebase/test.dart';
+
+import 'package:house_an_apartement/firebase/widget.dart';
 import 'package:house_an_apartement/screen/home/widget/allpost.dart';
 import 'package:house_an_apartement/screen/home/widget/categories.dart';
-import 'package:house_an_apartement/screen/home/widget/recommended_house.dart';
 import 'package:house_an_apartement/screen/home/widget/search_input.dart';
 import 'package:house_an_apartement/screen/home/widget/welcome_text.dart';
 
@@ -16,20 +20,20 @@ class HomePage extends StatelessWidget {
   final FirebaseAuth currentUser = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    bool someCondition = false;
+    return WillPopScope(
+      onWillPop: () async {
+        // Do some logic here to determine whether or not to allow the pop
+        if (someCondition) {
+          return true; // Allow the pop to occur
+        } else {
+          return false; // Prevent the pop
+        }
+      },
+      child:
+    Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      drawer: const Drawer(),
-      // Drawer(
-      //   child: Center(
-      //       child: ElevatedButton(
-      //           onPressed: () {
-      //             Navigator.push(
-      //               context,
-      //               MaterialPageRoute(builder: (context) => MyWidget()),
-      //             );
-      //           },
-      //           child: Text('Edit Profile'))),
-      // ),
+      drawer: const Logout(),
       appBar: AppBar(
         backgroundColor: Colors.purple,
         actions: [
@@ -78,7 +82,7 @@ class HomePage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const DropdownExample()),
+                    builder: (context) => Form_Page()),
               );
             },
             child: const Icon(Icons.add),
@@ -87,15 +91,16 @@ class HomePage extends StatelessWidget {
           FloatingActionButton(
             heroTag: 'message',
             onPressed: () {
-              Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AllPost()),
-                  );
+              // Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => FirestoreImageDisplay()),
+              //     );
             },
             child: const Icon(Icons.message_outlined),
           ),
         ],
       ),
+    ),
     );
   }
 }

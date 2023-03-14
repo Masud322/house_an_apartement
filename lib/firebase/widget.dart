@@ -104,3 +104,39 @@ class _Widget_PageState extends State<Widget_Page> {
     );
   }
 }
+
+class Logout extends StatefulWidget {
+  const Logout({Key? key}) : super(key: key);
+
+  @override
+  _LogoutState createState() => _LogoutState();
+}
+
+class _LogoutState extends State<Logout> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  Widget build(BuildContext context) {
+    return 
+      Drawer(
+        child: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              logout();
+            },
+            child: const Text('Logout'),
+          ),
+        ),
+      );
+    
+  }
+
+  Future<void> logout() async {
+    await _auth.signOut();
+    // ignore: use_build_context_synchronously
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (BuildContext context) => const Login()),
+        (route) => false);
+  }
+}

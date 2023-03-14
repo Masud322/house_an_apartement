@@ -43,6 +43,10 @@ dependencies:
   firebase_database: ^10.0.9
   image_picker: ^0.8.6+1
   pinput: ^2.2.21
+  firebase_storage: ^11.0.15
+  carousel_slider: ^4.2.1
+  multi_image_picker: ^4.8.01
+  cached_network_image: ^3.2.3
   
 
 dev_dependencies:

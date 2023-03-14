@@ -1,24 +1,26 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class House_Details extends StatelessWidget {
   House_Details({super.key, required this.data});
   var data;
+  
 
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
           child: SingleChildScrollView(
-            child: Center(
-                  child: Column(
+        child: Center(
+          child: Column(
             children: [
               SizedBox(
-                child: Image.network(
-                  "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg",
-                  fit: BoxFit.contain,
-                ),
+                height: 250,
+                width: 400,
+                child:Image.network(data['imageURL'][0],
+                fit: BoxFit.cover,
+              ),
               ),
               Container(
                 padding: const EdgeInsets.all(25),
@@ -30,13 +32,22 @@ class House_Details extends StatelessWidget {
                       // mainAxisSize: MainAxisSize.min,
                       children: [
                         const SizedBox(
-                          height: 25,
+                          height: 18,
                         ),
-                        Text(
-                          'House Name: ${data['name']}',
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                            
+                          Text(
+                            'House Name: ${data['name']}',
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                            ],
+                          ),
                         ),
+                        
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Text(
@@ -77,7 +88,8 @@ class House_Details extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            const Padding(padding: EdgeInsets.only(top: 10,bottom: 10)),
+                            const Padding(
+                                padding: EdgeInsets.only(top: 10, bottom: 10)),
                             Container(
                               child: Row(
                                 children: [
@@ -110,7 +122,8 @@ class House_Details extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            const Padding(padding: EdgeInsets.only(top: 10,bottom: 10)),
+                            const Padding(
+                                padding: EdgeInsets.only(top: 10, bottom: 10)),
                             Container(
                               child: Row(
                                 children: [
@@ -122,10 +135,6 @@ class House_Details extends StatelessWidget {
                                 ],
                               ),
                             ),
-          
-                            // Container(
-                            //  child:Text('Kitchen: ${data.docs[index]['kitchen']}',style: TextStyle(fontSize: 16),),
-                            // ),
                             const SizedBox(
                               width: 80,
                             ),
@@ -142,9 +151,20 @@ class House_Details extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const Padding(padding: EdgeInsets.only(top: 30,bottom: 5),
-                          child: Text('About:',
-                            style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 3),
+                          child: Text(
+                            '\nContact: ${data['number']}',
+                            style: const TextStyle(fontSize: 16,color: Colors.purple),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 30, bottom: 5),
+                          child: Text(
+                            'About:',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
                         ),
                         Text(
                           '${data['about']}\n\n',
@@ -181,9 +201,9 @@ class House_Details extends StatelessWidget {
                 // child: Text('House Name: ${data.docs[index]['name']}\nLocation: ${data.docs[index]['location']}\ncategory:${data.docs[index]['category']}\ngender: ${data.docs[index]['gender']}\n'),
               ),
             ],
-                  ),
-                ),
-          )),
+          ),
+        ),
+      )),
     );
   }
 }

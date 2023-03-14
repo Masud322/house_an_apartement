@@ -21,6 +21,25 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
+  @override
+  void initState() {
+    super.initState();
+    // Check if the user is already logged in
+    checkLogin();
+  }
+
+  void checkLogin() async {
+    if (_auth.currentUser != null) {
+      // If the user is already logged in, update the _isLoggedIn variable
+      setState(() {
+        _isLoggedIn = true;
+      });
+    }
+  }
+
+  bool _isLoggedIn = false;
+
+
   final _auth = FirebaseAuth.instance;
   bool _obsecureText = true;
   late String email;
@@ -31,18 +50,14 @@ class _LoginState extends State<Login> {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+     if (_isLoggedIn) {
+      // If the user is already logged in, skip the login flow and show the main app screen
+      return HomePage();
+      } else {
+    return
+    Scaffold(
       appBar: AppBar(
         title: const Text('House an Apartement'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SignUp()),
-            );
-          },
-        ),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -209,5 +224,6 @@ class _LoginState extends State<Login> {
         ),
       )
     );
+      }
   }
 }

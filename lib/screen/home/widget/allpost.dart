@@ -15,7 +15,7 @@ class _AllPostState extends State<AllPost> {
   @override
   void initState() {
     super.initState();
-    _stream = FirebaseFirestore.instance.collection('users').snapshots();
+    _stream = FirebaseFirestore.instance.collection('test').snapshots();
   }
 
   @override
@@ -81,6 +81,8 @@ class _AllPostState extends State<AllPost> {
                     shrinkWrap: true,
                     itemCount: filteredDocs.length,
                     itemBuilder: (context, index) {
+                      final List<dynamic> urls =
+                          filteredDocs[index]['imageURL'];
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -120,10 +122,10 @@ class _AllPostState extends State<AllPost> {
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 0.0),
-                                        child: Image.network(
-                                          "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg",
-                                          fit: BoxFit.cover,
-                                        ),
+                                        child: urls.isNotEmpty
+                                            ? Image.network(urls[0],
+                                            fit: BoxFit.cover,)
+                                            : Container(),
                                       ),
                                     ),
                                   ),
@@ -166,7 +168,7 @@ class _AllPostState extends State<AllPost> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 8.0),
                                           child: Text(
-                                            '${'\u{1F4CD}'+ filteredDocs[index]['area']} ${filteredDocs[index]['district']}, ${filteredDocs[index]['division']}',
+                                            '${'\u{1F4CD}' + filteredDocs[index]['area']} ${filteredDocs[index]['district']}, ${filteredDocs[index]['division']}',
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
                                                 color: Colors.black54,
