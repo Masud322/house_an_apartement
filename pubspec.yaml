@@ -47,6 +47,8 @@ dependencies:
   carousel_slider: ^4.2.1
   multi_image_picker: ^4.8.01
   cached_network_image: ^3.2.3
+  shared_preferences: ^2.0.18
+  file_picker: ^5.2.6
   
 
 dev_dependencies:

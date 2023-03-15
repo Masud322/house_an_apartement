@@ -195,10 +195,11 @@ class _Uplode_ImageState extends State<Uplode_Image> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HomePage()),
+                                    );
                                   },
                                   child: const Text(
                                     'Ok',

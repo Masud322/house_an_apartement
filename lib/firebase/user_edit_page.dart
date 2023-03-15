@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:house_an_apartement/firebase/profile.dart';
+import 'package:house_an_apartement/firebase/widget.dart';
 import 'package:house_an_apartement/screen/home/home_page.dart';
 
 final TextEditingController usernameController = TextEditingController();
@@ -22,12 +23,12 @@ class Profile_Edit extends StatefulWidget {
 }
 
 class _Profile_EditState extends State<Profile_Edit> {
-
   bool _obsecureText = true;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final User? _user = FirebaseAuth.instance.currentUser;
-  
+  final User user = FirebaseAuth.instance.currentUser!;
+
   String _username = '';
   String _name = '';
   String _profession = '';
@@ -47,7 +48,7 @@ class _Profile_EditState extends State<Profile_Edit> {
         await _firestore.collection('user_profile').doc(_user!.uid).get();
     if (snapshot.exists) {
       final Map<String, dynamic>? data = snapshot.data();
-        setState(() {
+      setState(() {
         _username = data!['username'] ?? '';
         _name = data['name'] ?? '';
         _profession = data['profession'] ?? '';
@@ -58,7 +59,7 @@ class _Profile_EditState extends State<Profile_Edit> {
       });
     }
   }
-  
+
   Future<void> _saveUserData() async {
     final Map<String, dynamic> data = <String, dynamic>{
       'username': usernameController.text,
@@ -75,7 +76,6 @@ class _Profile_EditState extends State<Profile_Edit> {
       const SnackBar(content: Text('User data updated successfully')),
     );
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -97,18 +97,17 @@ class _Profile_EditState extends State<Profile_Edit> {
           child: Center(
             child: Column(
               children: [
-                
                 Container(
-                  padding: const EdgeInsets.only(right: 255,top: 5,bottom: 5),
-                  child: const Text('Edit Profile',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)),
-                  Container(
-                    child: const CircleAvatar(
-                  radius: 70,
-                  backgroundImage: AssetImage('assets/images/avater.jpg'),
-                ),
-                  ),
-                  const SizedBox(
-                  height: 10,
+                    padding:
+                        const EdgeInsets.only(right: 255, top: 5, bottom: 5),
+                    child: const Text(
+                      'Edit Profile',
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    )),
+                
+                const SizedBox(
+                  height: 20,
                 ),
                 Center(
                   child: Container(
@@ -116,8 +115,8 @@ class _Profile_EditState extends State<Profile_Edit> {
                     width: 160,
                     child: TextFormField(
                       controller: usernameController,
-                        maxLength: 10,
-                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                      maxLength: 10,
+                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
                       textAlign: TextAlign.center,
                       decoration: const InputDecoration(
                         labelText: 'Username',
@@ -135,8 +134,8 @@ class _Profile_EditState extends State<Profile_Edit> {
                   width: 335,
                   child: TextFormField(
                     controller: nameController,
-                        maxLength: 18,
-                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                    maxLength: 18,
+                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     decoration: const InputDecoration(
                       labelText: 'Full Name',
                       border: OutlineInputBorder(),
@@ -153,8 +152,8 @@ class _Profile_EditState extends State<Profile_Edit> {
                   width: 335,
                   child: TextFormField(
                     controller: professionController,
-                        maxLength: 12,
-                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                    maxLength: 12,
+                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     decoration: const InputDecoration(
                       labelText: 'Profession',
                       border: OutlineInputBorder(),
@@ -206,8 +205,8 @@ class _Profile_EditState extends State<Profile_Edit> {
                   child: TextFormField(
                     controller: phoneController,
                     keyboardType: TextInputType.phone,
-                        maxLength: 11,
-                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                    maxLength: 11,
+                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     decoration: const InputDecoration(
                       labelText: 'Phone',
                       border: OutlineInputBorder(),
@@ -216,7 +215,6 @@ class _Profile_EditState extends State<Profile_Edit> {
                     ),
                   ),
                 ),
-                
                 const SizedBox(
                   height: 15,
                 ),
@@ -232,14 +230,16 @@ class _Profile_EditState extends State<Profile_Edit> {
                       counterText: 'Minimum 6 characters',
                       hintText: 'Password',
                       prefixIcon: const Icon(Icons.key),
-                       suffixIcon: GestureDetector(
-                                    onTap: (() {
-                                      setState((){
-                                        _obsecureText=! _obsecureText;
-                                      });
-                                    }),
-                                      child: Icon(_obsecureText ?Icons.visibility:Icons.visibility_off),
-                                    ),
+                      suffixIcon: GestureDetector(
+                        onTap: (() {
+                          setState(() {
+                            _obsecureText = !_obsecureText;
+                          });
+                        }),
+                        child: Icon(_obsecureText
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                      ),
                     ),
                   ),
                 ),
@@ -248,13 +248,16 @@ class _Profile_EditState extends State<Profile_Edit> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-            _saveUserData(); // Call the method to save user data
-          //   Navigator.push(
-          // context,
-          // MaterialPageRoute(builder: (context) => HomePage()), // Navigate to another page
-          //   );
-          },
-                  child: const Text('Save',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                    _saveUserData(); // Call the method to save user data
+                    //   Navigator.push(
+                    // context,
+                    // MaterialPageRoute(builder: (context) => HomePage()), // Navigate to another page
+                    //   );
+                  },
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),

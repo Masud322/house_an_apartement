@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:house_an_apartement/firebase/user_edit_page.dart';
+import 'package:house_an_apartement/firebase/widget.dart';
 
 // ignore: camel_case_types
 class Profile_Page extends StatefulWidget {
@@ -60,10 +61,9 @@ class _Profile_PageState extends State<Profile_Page> {
                 const SizedBox(
                   height: 15,
                 ),
-                const CircleAvatar(
-                  radius: 70,
-                  backgroundImage: AssetImage('assets/images/avater.jpg'),
-                ),
+
+                // EditIconButton(),
+                
                 const SizedBox(
                   height: 8,
                 ),

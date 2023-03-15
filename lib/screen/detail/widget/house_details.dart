@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
-class House_Details extends StatelessWidget {
+class House_Details extends StatefulWidget {
   House_Details({super.key, required this.data});
   var data;
-  
 
   @override
+  State<House_Details> createState() => _House_DetailsState();
+}
+
+class _House_DetailsState extends State<House_Details> {
+  @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -15,12 +19,24 @@ class House_Details extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              SizedBox(
-                height: 250,
-                width: 400,
-                child:Image.network(data['imageURL'][0],
-                fit: BoxFit.cover,
-              ),
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: 250,
+                  aspectRatio: 16 / 9,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 3),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enableInfiniteScroll: widget.data['imageURL'].length > 1,
+                  viewportFraction: 1,
+                ),
+                items: List<Widget>.from(
+                  widget.data['imageURL'].map((url) {
+                    return Container(
+                      width: 400,
+                      child: Image.network(url, fit: BoxFit.cover),
+                    );
+                  }),
+                ),
               ),
               Container(
                 padding: const EdgeInsets.all(25),
@@ -38,48 +54,46 @@ class House_Details extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                            
-                          Text(
-                            'House Name: ${data['name']}',
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
+                              Text(
+                                'House Name: ${widget.data['name']}',
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
                             ],
                           ),
                         ),
-                        
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Text(
-                            '\nCategory: ${data['category']}',
+                            '\nCategory: ${widget.data['category']}',
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Text(
-                            'For: ${data['gender']}',
+                            'For: ${widget.data['gender']}',
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Text(
-                            'Location: ${data['area']} ${data['district']}, ${data['division']}',
+                            'Location: ${widget.data['area']} ${widget.data['district']}, ${widget.data['division']}',
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Text(
-                            'Free Month: ${data['free month']}',
+                            'Free Month: ${widget.data['free month']}',
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Text(
-                            'Price: ৳${data['price']} Per Month',
+                            'Price: ৳${widget.data['price']} Per Month',
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),
@@ -95,7 +109,7 @@ class House_Details extends StatelessWidget {
                                 children: [
                                   Image.asset('assets/images/bedroom.png'),
                                   Text(
-                                    '  Bedroom: ${data['bedroom']}',
+                                    '  Bedroom: ${widget.data['bedroom']}',
                                     style: const TextStyle(fontSize: 16),
                                   ),
                                 ],
@@ -109,7 +123,7 @@ class House_Details extends StatelessWidget {
                                 children: [
                                   Image.asset('assets/images/bath.png'),
                                   Text(
-                                    '  Bathroom: ${data['bathroom']}',
+                                    '  Bathroom: ${widget.data['bathroom']}',
                                     style: const TextStyle(fontSize: 16),
                                   ),
                                 ],
@@ -129,7 +143,7 @@ class House_Details extends StatelessWidget {
                                 children: [
                                   Image.asset('assets/images/kitchen.png'),
                                   Text(
-                                    '  Kitchen: ${data['kitchen']}',
+                                    '  Kitchen: ${widget.data['kitchen']}',
                                     style: const TextStyle(fontSize: 16),
                                   ),
                                 ],
@@ -143,7 +157,7 @@ class House_Details extends StatelessWidget {
                                 children: [
                                   Image.asset('assets/images/parking.png'),
                                   Text(
-                                    '  Parking: ${data['parking']}',
+                                    '  Parking: ${widget.data['parking']}',
                                     style: const TextStyle(fontSize: 16),
                                   ),
                                 ],
@@ -152,14 +166,17 @@ class House_Details extends StatelessWidget {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 3),
+                          padding: const EdgeInsets.only(top: 7),
                           child: Text(
-                            '\nContact: ${data['number']}',
-                            style: const TextStyle(fontSize: 16,color: Colors.purple),
+                            '\nContact: ${widget.data['number']}',
+                            style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.purple,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                         const Padding(
-                          padding: EdgeInsets.only(top: 30, bottom: 5),
+                          padding: EdgeInsets.only(top: 28, bottom: 5),
                           child: Text(
                             'About:',
                             style: TextStyle(
@@ -167,14 +184,14 @@ class House_Details extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${data['about']}\n\n',
+                          '${widget.data['about']}\n\n',
                           style: const TextStyle(fontSize: 18),
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: ElevatedButton(
                             onPressed: () {
-                              print(data);
+                              print(widget.data);
                             },
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(

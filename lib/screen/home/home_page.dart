@@ -5,7 +5,6 @@ import 'package:house_an_apartement/firebase/form_Page.dart';
 
 
 import 'package:house_an_apartement/firebase/image.dart';
-import 'package:house_an_apartement/firebase/location.dart';
 
 import 'package:house_an_apartement/firebase/profile.dart';
 import 'package:house_an_apartement/firebase/test.dart';
@@ -15,12 +14,22 @@ import 'package:house_an_apartement/screen/home/widget/allpost.dart';
 import 'package:house_an_apartement/screen/home/widget/categories.dart';
 import 'package:house_an_apartement/screen/home/widget/search_input.dart';
 import 'package:house_an_apartement/screen/home/widget/welcome_text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {
+
+  Future<String?> _loadImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('imageUrl');
+  }
+  
   final FirebaseAuth currentUser = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
+
     bool someCondition = false;
+
+    
     return WillPopScope(
       onWillPop: () async {
         // Do some logic here to determine whether or not to allow the pop
@@ -37,25 +46,29 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.purple,
         actions: [
-          Center(
-            child: Row(
-              children: [
-                CircleAvatar(
-                    radius: 25,
-                    backgroundImage:
-                        const AssetImage('assets/images/avater.jpg'),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Profile_Page()),
-                        );
-                      },
-                    )),
-              ],
-            ),
-          )
+          // FutureBuilder<String?>(
+          //   future: _loadImage(),
+          //   builder: (context, snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.done &&
+          //         snapshot.data != null) {
+          //       return CircleAvatar(
+          //         radius: 28,
+          //         backgroundImage: NetworkImage(snapshot.data!),
+          //         child: GestureDetector(
+          //           onTap: () {
+          //             Navigator.push(
+          //               context,
+          //               MaterialPageRoute(
+          //                   builder: (context) => const Profile_Page()),
+          //             );
+          //           },
+          //         ),
+          //       );
+          //     } else {
+          //       return const Center(child: CircularProgressIndicator());
+          //     }
+          //   },
+          // )
         ],
       ),
       body: 
@@ -64,9 +77,9 @@ class HomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                WelcomeText(),
+                const WelcomeText(),
                 // SearchPage(),
-                AllPost(),
+                // AllPost(),
                 // Near_you(),
               ],
             ),
@@ -91,10 +104,10 @@ class HomePage extends StatelessWidget {
           FloatingActionButton(
             heroTag: 'message',
             onPressed: () {
-              // Navigator.push(
-              //       context,
-              //       MaterialPageRoute(builder: (context) => FirestoreImageDisplay()),
-              //     );
+              Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AvatarScreen()),
+                  );
             },
             child: const Icon(Icons.message_outlined),
           ),

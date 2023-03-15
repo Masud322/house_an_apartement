@@ -1,7 +1,13 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:house_an_apartement/firebase/login.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Forget_Page extends StatefulWidget {
   const Forget_Page({super.key, required this.context});
@@ -140,3 +146,78 @@ class _LogoutState extends State<Logout> {
         (route) => false);
   }
 }
+
+
+
+
+
+
+class EditIconButton extends StatefulWidget {
+  @override
+  _EditIconButtonState createState() => _EditIconButtonState();
+}
+
+class _EditIconButtonState extends State<EditIconButton> {
+  final picker = ImagePicker();
+  String? _imageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadImageUrl();
+  }
+
+  Future<void> _loadImageUrl() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _imageUrl = prefs.getString('imageUrl');
+    });
+  }
+
+  Future<void> _saveImageUrl(String url) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('imageUrl', url);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () async {
+        final pickedFile =
+            await picker.getImage(source: ImageSource.gallery);
+        if (pickedFile != null) {
+          final Reference storageRef = FirebaseStorage.instance
+              .ref()
+              .child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+          final UploadTask uploadTask =
+              storageRef.putFile(File(pickedFile.path));
+          final TaskSnapshot downloadUrl =
+              (await uploadTask.whenComplete(() {}));
+
+          final String url = await downloadUrl.ref.getDownloadURL();
+
+          FirebaseFirestore.instance.collection('images').add({
+            'url': url,
+          });
+
+          _saveImageUrl(url);
+
+          setState(() {
+            _imageUrl = url;
+          });
+        }
+      },
+      child: _imageUrl != null
+          ? CircleAvatar(
+              backgroundImage: NetworkImage(_imageUrl!),
+              radius: 70.0,
+            )
+          : Icon(Icons.edit),
+    );
+  }
+}
+
+
+
+

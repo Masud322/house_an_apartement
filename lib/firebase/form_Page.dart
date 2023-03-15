@@ -34,11 +34,12 @@ class _Form_PageState extends State<Form_Page> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: no_leading_underscores_for_local_identifiers
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.purple,
-        title: Text('Form Page'),
+        title: const Text('Form Page'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -75,7 +76,7 @@ class _Form_PageState extends State<Form_Page> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           hintText: 'Write your house Name',
-                          prefixIcon: Icon(Icons.house_rounded),
+                          prefixIcon: const Icon(Icons.house_rounded),
                         ),
                       ),
                     ),
@@ -101,7 +102,7 @@ class _Form_PageState extends State<Form_Page> {
                             return DropdownButtonFormField(
                               decoration: InputDecoration(
                                   label: const Text('Select catrgory'),
-                                  prefixIcon: Icon(Icons.category),
+                                  prefixIcon: const Icon(Icons.category),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   )),
@@ -143,7 +144,7 @@ class _Form_PageState extends State<Form_Page> {
                               decoration: InputDecoration(
                                   label: const Text('Requirement'),
                                   helperText: 'Male/Female/Nothing',
-                                  prefixIcon: Icon(Icons.transgender),
+                                  prefixIcon: const Icon(Icons.transgender),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   )),
@@ -189,7 +190,7 @@ class _Form_PageState extends State<Form_Page> {
                                   return DropdownButtonFormField(
                                     decoration: InputDecoration(
                                         label: const Text('Select bedroom'),
-                                        prefixIcon: Icon(Icons.bed),
+                                        prefixIcon: const Icon(Icons.bed),
                                         border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -235,7 +236,7 @@ class _Form_PageState extends State<Form_Page> {
                                   return DropdownButtonFormField(
                                     decoration: InputDecoration(
                                         label: const Text('Select bathroom'),
-                                        prefixIcon: Icon(Icons.bathroom),
+                                        prefixIcon: const Icon(Icons.bathroom),
                                         border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -285,7 +286,7 @@ class _Form_PageState extends State<Form_Page> {
                                   return DropdownButtonFormField(
                                     decoration: InputDecoration(
                                         label: const Text('Select kitchen'),
-                                        prefixIcon: Icon(Icons.kitchen),
+                                        prefixIcon: const Icon(Icons.kitchen),
                                         border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -331,7 +332,7 @@ class _Form_PageState extends State<Form_Page> {
                                   return DropdownButtonFormField(
                                     decoration: InputDecoration(
                                         label: const Text('Parking'),
-                                        prefixIcon: Icon(Icons.local_parking_sharp),
+                                        prefixIcon: const Icon(Icons.local_parking_sharp),
                                         border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -376,7 +377,7 @@ class _Form_PageState extends State<Form_Page> {
                             return DropdownButtonFormField(
                               decoration: InputDecoration(
                                   label: const Text('Free Month'),
-                                  prefixIcon: Icon(Icons.start),
+                                  prefixIcon: const Icon(Icons.start),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   )),
@@ -416,7 +417,7 @@ class _Form_PageState extends State<Form_Page> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           hintText: 'Rent Price',
-                          prefixIcon: Icon(Icons.price_check),
+                          prefixIcon: const Icon(Icons.price_check),
                           
                         ),
                       ),
@@ -435,9 +436,9 @@ class _Form_PageState extends State<Form_Page> {
                         keyboardType: TextInputType.phone,
                         maxLength: 11,
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.phone),
+                          prefixIcon: const Icon(Icons.phone),
                           labelText: 'Contact Number',
-                          prefix: Text('+88 ',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
+                          prefix: const Text('+88 ',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -457,7 +458,7 @@ class _Form_PageState extends State<Form_Page> {
                           return null;
                         },
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.details),
+                          prefixIcon: const Icon(Icons.details),
                           labelText: 'About',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
