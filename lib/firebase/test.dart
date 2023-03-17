@@ -18,8 +18,6 @@ class _AvatarScreenState extends State<AvatarScreen> {
   late File _imageFile;
   late String _imageUrl = '';
 
-  
-
   @override
   void initState() {
     super.initState();
@@ -28,7 +26,8 @@ class _AvatarScreenState extends State<AvatarScreen> {
   }
 
   Future<void> _loadImageUrl() async {
-    final userDoc = await FirebaseFirestore.instance.collection('users').doc(_userId).get();
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(_userId).get();
     final data = userDoc.data();
     if (mounted && data != null && data.containsKey('avatarUrl')) {
       setState(() {
@@ -48,7 +47,8 @@ class _AvatarScreenState extends State<AvatarScreen> {
   }
 
   void _pickImage() async {
-    final pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
@@ -75,18 +75,31 @@ class _AvatarScreenState extends State<AvatarScreen> {
         title: Text('Avatar Screen'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
             CircleAvatar(
               radius: 50,
-              backgroundImage: _imageUrl != null ? NetworkImage(_imageUrl) : null,
+              backgroundImage:
+                  _imageUrl != null ? NetworkImage(_imageUrl) : null,
               child: _imageUrl == null ? Icon(Icons.person, size: 50) : null,
             ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _pickImage,
-              child: Text('Pick Image'),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              
+              child: Container(
+                
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: _pickImage,
+                  
+                  
+                ),
+              ),
             ),
           ],
         ),

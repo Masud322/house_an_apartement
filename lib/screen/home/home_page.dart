@@ -18,7 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {
 
-  Future<String?> _loadImage() async {
+  Future<String?> _saveImageUrl() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('imageUrl');
   }
@@ -46,29 +46,29 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.purple,
         actions: [
-          // FutureBuilder<String?>(
-          //   future: _loadImage(),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.done &&
-          //         snapshot.data != null) {
-          //       return CircleAvatar(
-          //         radius: 28,
-          //         backgroundImage: NetworkImage(snapshot.data!),
-          //         child: GestureDetector(
-          //           onTap: () {
-          //             Navigator.push(
-          //               context,
-          //               MaterialPageRoute(
-          //                   builder: (context) => const Profile_Page()),
-          //             );
-          //           },
-          //         ),
-          //       );
-          //     } else {
-          //       return const Center(child: CircularProgressIndicator());
-          //     }
-          //   },
-          // )
+          FutureBuilder<String?>(
+            future: _saveImageUrl(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.data != null) {
+                return CircleAvatar(
+                  radius: 28,
+                  backgroundImage: NetworkImage(snapshot.data!),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Profile_Page()),
+                      );
+                    },
+                  ),
+                );
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          )
         ],
       ),
       body: 
