@@ -249,10 +249,10 @@ class _Profile_EditState extends State<Profile_Edit> {
                 ElevatedButton(
                   onPressed: () {
                     _saveUserData(); // Call the method to save user data
-                    //   Navigator.push(
-                    // context,
-                    // MaterialPageRoute(builder: (context) => HomePage()), // Navigate to another page
-                    //   );
+                      Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()), // Navigate to another page
+                      );
                   },
                   child: const Text(
                     'Save',

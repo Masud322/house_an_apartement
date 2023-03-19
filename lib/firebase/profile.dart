@@ -6,7 +6,10 @@ import 'package:house_an_apartement/firebase/widget.dart';
 
 // ignore: camel_case_types
 class Profile_Page extends StatefulWidget {
-  const Profile_Page({Key? key}) : super(key: key);
+
+final String imageUrl;
+
+  Profile_Page({required this.imageUrl});
 
   @override
   _Profile_PageState createState() => _Profile_PageState();
@@ -23,6 +26,7 @@ class _Profile_PageState extends State<Profile_Page> {
   String _email = '';
   String _phone = '';
   String _password = '';
+  
 
   @override
   void initState() {
@@ -61,9 +65,10 @@ class _Profile_PageState extends State<Profile_Page> {
                 const SizedBox(
                   height: 15,
                 ),
-
-                // EditIconButton(),
-                
+                CircleAvatar(
+                  radius: 70,
+                  backgroundImage: NetworkImage(widget.imageUrl),
+                  ),               
                 const SizedBox(
                   height: 8,
                 ),
@@ -192,19 +197,22 @@ class _Profile_PageState extends State<Profile_Page> {
                           ),
                           backgroundBlendMode: BlendMode.colorBurn,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Padding(padding: EdgeInsets.only(right: 20)),
-                            const Icon(Icons.email),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            Text(
-                              'Email: $_email',
-                              style: const TextStyle(fontSize: 18,overflow: TextOverflow.ellipsis,fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Padding(padding: EdgeInsets.only(right: 20)),
+                              const Icon(Icons.email),
+                              const SizedBox(
+                                width: 12,
+                              ),
+                              Text(
+                                'Email: $_email',
+                                style: const TextStyle(fontSize: 18,overflow: TextOverflow.ellipsis,fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(

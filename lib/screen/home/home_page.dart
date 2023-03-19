@@ -7,7 +7,7 @@ import 'package:house_an_apartement/firebase/form_Page.dart';
 import 'package:house_an_apartement/firebase/image.dart';
 
 import 'package:house_an_apartement/firebase/profile.dart';
-import 'package:house_an_apartement/firebase/test.dart';
+import 'package:house_an_apartement/firebase/drawer_header.dart';
 
 import 'package:house_an_apartement/firebase/widget.dart';
 import 'package:house_an_apartement/screen/home/widget/allpost.dart';
@@ -18,10 +18,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {
 
-  Future<String?> _saveImageUrl() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('imageUrl');
-  }
+
+  // Future<String?> _loadImageUrl() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString('imageUrl');
+  // }
   
   final FirebaseAuth currentUser = FirebaseAuth.instance;
   @override
@@ -33,6 +34,7 @@ class HomePage extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async {
         // Do some logic here to determine whether or not to allow the pop
+        // ignore: dead_code
         if (someCondition) {
           return true; // Allow the pop to occur
         } else {
@@ -42,34 +44,41 @@ class HomePage extends StatelessWidget {
       child:
     Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      drawer: const Logout(),
+      drawer: AvatarScreen(),
+      // drawer:  Drawer(
+      //   child: Container(),
+      //   //  Logout(),
+      // ),
+      
       appBar: AppBar(
         backgroundColor: Colors.purple,
-        actions: [
-          FutureBuilder<String?>(
-            future: _saveImageUrl(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.data != null) {
-                return CircleAvatar(
-                  radius: 28,
-                  backgroundImage: NetworkImage(snapshot.data!),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Profile_Page()),
-                      );
-                    },
-                  ),
-                );
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            },
-          )
-        ],
+        
+        
+        // actions: [
+        //   FutureBuilder<String?>(
+        //     future: _loadImageUrl(),
+        //     builder: (context, snapshot) {
+        //       if (snapshot.connectionState == ConnectionState.done &&
+        //           snapshot.data != null) {
+        //         return CircleAvatar(
+        //           radius: 28,
+        //           backgroundImage: NetworkImage(snapshot.data!),
+        //           child: GestureDetector(
+        //             onTap: () {
+        //               // Navigator.push(
+        //               //   context,
+        //               //   MaterialPageRoute(
+        //               //       builder: (context) => const Profile_Page()),
+        //               // );
+        //             },
+        //           ),
+        //         );
+        //       } else {
+        //         return const CircularProgressIndicator();
+        //       }
+        //     },
+        //   )
+        // ],
       ),
       body: 
          SafeArea(
@@ -77,9 +86,9 @@ class HomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const WelcomeText(),
+                WelcomeText(),
                 // SearchPage(),
-                // AllPost(),
+                AllPost(),
                 // Near_you(),
               ],
             ),
@@ -104,10 +113,10 @@ class HomePage extends StatelessWidget {
           FloatingActionButton(
             heroTag: 'message',
             onPressed: () {
-              Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AvatarScreen()),
-                  );
+              // Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => AvatarScreen()),
+              //     );
             },
             child: const Icon(Icons.message_outlined),
           ),

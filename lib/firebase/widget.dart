@@ -75,6 +75,7 @@ class Widget_Page extends StatefulWidget {
   @override
   State<Widget_Page> createState() => _Widget_PageState();
 }
+
 class _Widget_PageState extends State<Widget_Page> {
   @override
   Widget build(BuildContext context) {
@@ -123,18 +124,12 @@ class _LogoutState extends State<Logout> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-      Drawer(
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              logout();
-            },
-            child: const Text('Logout'),
-          ),
-        ),
-      );
-    
+    return ElevatedButton(
+      onPressed: () {
+        logout();
+      },
+      child: const Text('Logout'),
+    );
   }
 
   Future<void> logout() async {
@@ -152,71 +147,71 @@ class _LogoutState extends State<Logout> {
 
 
 
-class EditIconButton extends StatefulWidget {
-  @override
-  _EditIconButtonState createState() => _EditIconButtonState();
-}
+// class EditIconButton extends StatefulWidget {
+//   @override
+//   _EditIconButtonState createState() => _EditIconButtonState();
+// }
 
-class _EditIconButtonState extends State<EditIconButton> {
-  final picker = ImagePicker();
-  String? _imageUrl;
+// class _EditIconButtonState extends State<EditIconButton> {
+//   final picker = ImagePicker();
+//   String? _imageUrl;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadImageUrl();
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     _loadImageUrl();
+//   }
 
-  Future<void> _loadImageUrl() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _imageUrl = prefs.getString('imageUrl');
-    });
-  }
+//   Future<void> _loadImageUrl() async {
+//     final prefs = await SharedPreferences.getInstance();
+//     setState(() {
+//       _imageUrl = prefs.getString('imageUrl');
+//     });
+//   }
 
-  Future<void> _saveImageUrl(String url) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('imageUrl', url);
-  }
+//   Future<void> _saveImageUrl(String url) async {
+//     final prefs = await SharedPreferences.getInstance();
+//     await prefs.setString('imageUrl', url);
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        final pickedFile =
-            await picker.getImage(source: ImageSource.gallery);
-        if (pickedFile != null) {
-          final Reference storageRef = FirebaseStorage.instance
-              .ref()
-              .child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: () async {
+//         final pickedFile =
+//             await picker.getImage(source: ImageSource.gallery);
+//         if (pickedFile != null) {
+//           final Reference storageRef = FirebaseStorage.instance
+//               .ref()
+//               .child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
 
-          final UploadTask uploadTask =
-              storageRef.putFile(File(pickedFile.path));
-          final TaskSnapshot downloadUrl =
-              (await uploadTask.whenComplete(() {}));
+//           final UploadTask uploadTask =
+//               storageRef.putFile(File(pickedFile.path));
+//           final TaskSnapshot downloadUrl =
+//               (await uploadTask.whenComplete(() {}));
 
-          final String url = await downloadUrl.ref.getDownloadURL();
+//           final String url = await downloadUrl.ref.getDownloadURL();
 
-          FirebaseFirestore.instance.collection('images').add({
-            'url': url,
-          });
+//           FirebaseFirestore.instance.collection('images').add({
+//             'url': url,
+//           });
 
-          _saveImageUrl(url);
+//           _saveImageUrl(url);
 
-          setState(() {
-            _imageUrl = url;
-          });
-        }
-      },
-      child: _imageUrl != null
-          ? CircleAvatar(
-              backgroundImage: NetworkImage(_imageUrl!),
-              radius: 70.0,
-            )
-          : Icon(Icons.edit),
-    );
-  }
-}
+//           setState(() {
+//             _imageUrl = url;
+//           });
+//         }
+//       },
+//       child: _imageUrl != null
+//           ? CircleAvatar(
+//               backgroundImage: NetworkImage(_imageUrl!),
+//               radius: 70.0,
+//             )
+//           : Icon(Icons.edit),
+//     );
+//   }
+// }
 
 
 

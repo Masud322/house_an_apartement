@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:house_an_apartement/firebase/house_details_page.dart';
 import 'package:house_an_apartement/screen/detail/widget/house_details.dart';
 
 class AllPost extends StatefulWidget {
