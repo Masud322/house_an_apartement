@@ -44,7 +44,7 @@ class _WelcomeTextState extends State<WelcomeText> {
             children: [
               Padding(padding: const EdgeInsets.only(left: 21,top: 10),
                 child: Text(
-                    'Hellow $_name',
+                    'Hello $_name',
                     style: const TextStyle(
                         fontSize: 16,
                         overflow: TextOverflow.ellipsis,

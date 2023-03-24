@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:house_an_apartement/screen/home/home_page.dart';
@@ -45,8 +46,20 @@ class Uplode_Image extends StatefulWidget {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  void _submitData(List<String> downloadUrls) {
+  Future<void> _submitData(List<String> downloadUrls) async {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    final DocumentSnapshot<Map<String, dynamic>> snapshot =
+      await _firestore.collection('user_profile').doc(userId).get();
+  String _name = '';
+  if (snapshot.exists) {
+    final Map<String, dynamic>? data = snapshot.data();
+    _name = data!['name'] ?? '';
+  }
+
     _firestore.collection('test').add({
+
+      'userId': userId,
       'name': text1,
       'price': text2,
       'number': text3,
@@ -62,6 +75,7 @@ class Uplode_Image extends StatefulWidget {
       'district': text13,
       'area': text14,
       'imageURL': downloadUrls,
+      'ownername':_name,
     });
   }
 
@@ -70,6 +84,9 @@ class Uplode_Image extends StatefulWidget {
 }
 
 class _Uplode_ImageState extends State<Uplode_Image> {
+
+  
+  
   List<File> _imageFiles = [];
   List<String> _downloadUrls = [];
 

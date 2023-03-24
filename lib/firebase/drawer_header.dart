@@ -9,17 +9,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AvatarScreen extends StatefulWidget {
-  final String? imageUrl;
 
-  AvatarScreen({this.imageUrl});
+
 
   @override
   _AvatarScreenState createState() => _AvatarScreenState();
 }
 
+
 class _AvatarScreenState extends State<AvatarScreen> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final User? _user = FirebaseAuth.instance.currentUser;
+
+  
 
   String _username = '';
   String _email = '';

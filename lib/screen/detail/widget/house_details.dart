@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:house_an_apartement/chat/chatroom.dart';
 
 class House_Details extends StatefulWidget {
+
   House_Details({super.key, required this.data});
   var data;
 
@@ -10,6 +14,31 @@ class House_Details extends StatefulWidget {
 }
 
 class _House_DetailsState extends State<House_Details> {
+  
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final User? _user = FirebaseAuth.instance.currentUser;
+
+  // String _name = '';
+
+@override
+void initState() {
+  super.initState();
+  if (_user != null) {
+    // _fetchUserData();
+  }
+}
+
+  // Future<void> _fetchUserData() async {
+  //   final DocumentSnapshot<Map<String, dynamic>> snapshot =
+  //       await _firestore.collection('user_profile').doc(_user!.uid).get();
+  //   if (snapshot.exists) {
+  //     final Map<String, dynamic>? data = snapshot.data();
+  //     setState(() {
+  //       _name = data!['name'] ?? '';
+  //     });
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +86,25 @@ class _House_DetailsState extends State<House_Details> {
                               Text(
                                 'House Name: ${widget.data['name']}',
                                 style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                    fontSize: 22, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              Text(
+                                'Owner Name: ${widget.data['ownername']}',
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.purple,
+                                    fontStyle: FontStyle.italic),
                               ),
                             ],
                           ),
@@ -189,26 +236,19 @@ class _House_DetailsState extends State<House_Details> {
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              print(widget.data);
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatRoom(
+                                    recipientId: widget.data['userId'],
+                                    data: widget.data,
+                                  ),
+                                ),
+                              );
                             },
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)),
-                              backgroundColor: Theme.of(context).primaryColor,
-                            ),
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                              child: const Text(
-                                'Message Now',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
+                            child: Text('Massage now')
                           ),
                         )
                       ],
@@ -225,145 +265,3 @@ class _House_DetailsState extends State<House_Details> {
   }
 }
 
-/**
- * Center(
-        child: StreamBuilder<QuerySnapshot>(
-          stream: users,
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return const Text('something went wrong');
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Text('Loading');
-            }
-
-            final data = snapshot.requireData;
-
-            return ListView.builder(
-              itemCount: data.size,
-              itemBuilder: ((context, index) {
-                return Container(
-                  padding: const EdgeInsets.all(6),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    // // mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(
-                        height: 9,
-                      ),
-                      Text(
-                        'House Name: ${data.docs[index]['name']}',
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '\nCategory: ${data.docs[index]['category']}\nGender: ${data.docs[index]['gender']}\nLocation: ${data.docs[index]['location']}\nFree Month: ${data.docs[index]['free month']}\nPrice: ${data.docs[index]['price']}\n',
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            child: Row(
-                              children: [
-                                Image.asset('assets/images/bedroom.png'),
-                                Text(
-                                  '  Bedroom: ${data.docs[index]['bedroom']}',
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 68,
-                          ),
-                          Container(
-                            child: Row(
-                              children: [
-                                Image.asset('assets/images/bath.png'),
-                                Text(
-                                  '  Bathroom: ${data.docs[index]['bathroom']}',
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            child: Row(
-                              children: [
-                                Image.asset('assets/images/kitchen.png'),
-                                Text(
-                                  '  Kitchen: ${data.docs[index]['kitchen']}',
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          // Container(
-                          //  child:Text('Kitchen: ${data.docs[index]['kitchen']}',style: TextStyle(fontSize: 16),),
-                          // ),
-                          const SizedBox(
-                            width: 80,
-                          ),
-                          Container(
-                            child: Row(
-                              children: [
-                                Image.asset('assets/images/parking.png'),
-                                Text(
-                                  '  Parking: ${data.docs[index]['parking']}',
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        '\nAbout: ${data.docs[index]['about']}\n\n',
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                      Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: ElevatedButton(
-                              onPressed: () {
-                                print(data);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
-                                backgroundColor: Theme.of(context).primaryColor,
-                              ),
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 15),
-                                  child: const Text('Message Now',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold)))))
-                    ],
-                  ),
-                  // child: Text('House Name: ${data.docs[index]['name']}\nLocation: ${data.docs[index]['location']}\ncategory:${data.docs[index]['category']}\ngender: ${data.docs[index]['gender']}\n'),
-                );
-              }),
-            );
-          },
-        ),
-      ),
- */
