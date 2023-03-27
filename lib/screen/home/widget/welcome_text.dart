@@ -30,7 +30,7 @@ class _WelcomeTextState extends State<WelcomeText> {
     if (snapshot.exists) {
       final Map<String, dynamic>? data = snapshot.data();
       setState(() {
-        _name = data!['name'] ?? '';
+        _name = data!['ownername'] ?? '';
       });
     }
   }

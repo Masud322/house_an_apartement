@@ -63,7 +63,7 @@ class _Profile_EditState extends State<Profile_Edit> {
   Future<void> _saveUserData() async {
     final Map<String, dynamic> data = <String, dynamic>{
       'username': usernameController.text,
-      'name': nameController.text,
+      'ownername': nameController.text,
       'profession': professionController.text,
       'gender': genderController.text,
       'email': emailController.text,

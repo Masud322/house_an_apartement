@@ -346,7 +346,7 @@ Future<void> setUserDoc(String uid) async {
 
   await userDoc.set({
     'username': usernameController.text,
-    'name': nameController.text,
+    'ownername': nameController.text,
     'profession': professionController.text,
     'gender': genderController.text,
     'password': passwordController.text,

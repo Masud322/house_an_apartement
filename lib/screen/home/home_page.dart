@@ -29,6 +29,7 @@ class HomePage extends StatelessWidget {
   final FirebaseAuth currentUser = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
+    int _notificationCount = 0;
 
     bool someCondition = false;
 
@@ -47,40 +48,8 @@ class HomePage extends StatelessWidget {
     Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       drawer: AvatarScreen(),
-      // drawer:  Drawer(
-      //   child: Container(),
-      //   //  Logout(),
-      // ),
-      
       appBar: AppBar(
         backgroundColor: Colors.purple,
-        
-        
-        // actions: [
-        //   FutureBuilder<String?>(
-        //     future: _loadImageUrl(),
-        //     builder: (context, snapshot) {
-        //       if (snapshot.connectionState == ConnectionState.done &&
-        //           snapshot.data != null) {
-        //         return CircleAvatar(
-        //           radius: 28,
-        //           backgroundImage: NetworkImage(snapshot.data!),
-        //           child: GestureDetector(
-        //             onTap: () {
-        //               // Navigator.push(
-        //               //   context,
-        //               //   MaterialPageRoute(
-        //               //       builder: (context) => const Profile_Page()),
-        //               // );
-        //             },
-        //           ),
-        //         );
-        //       } else {
-        //         return const CircularProgressIndicator();
-        //       }
-        //     },
-        //   )
-        // ],
       ),
       body: 
          SafeArea(
@@ -117,7 +86,7 @@ class HomePage extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => UserList()),
+                    MaterialPageRoute(builder: (context) => UserListPage()),
                   );
             },
             child: const Icon(Icons.message_outlined),
@@ -128,3 +97,7 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+
+
+

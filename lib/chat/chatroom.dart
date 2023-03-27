@@ -6,8 +6,7 @@ class ChatRoom extends StatefulWidget {
   final String recipientId;
   var data;
 
-  ChatRoom({required this.recipientId,
-  required this.data});
+  ChatRoom({required this.recipientId, required this.data});
 
   @override
   _ChatRoomState createState() => _ChatRoomState();
@@ -58,7 +57,7 @@ class _ChatRoomState extends State<ChatRoom> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.purple,
-        title: Text(widget.data['name']),
+        title: Text(widget.data['ownername'] ?? ''),
       ),
       body: Column(
         children: <Widget>[
@@ -126,15 +125,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                 fontSize: 12,
                               ),
                             ),
-                            // if (!isSender) SizedBox(height: 4),
-                            // if (!isSender)
-                              // Text(
-                              //   data['sender'],
-                              //   style: TextStyle(
-                              //     color: Colors.grey[600],
-                              //     fontSize: 12,
-                              //   ),
-                              // ),
                           ],
                         ),
                       ),
@@ -152,13 +142,18 @@ class _ChatRoomState extends State<ChatRoom> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: TextField(
-                    controller: _textController,
-                    decoration: const InputDecoration(
-                      hintText: 'Type a message...',
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 15.0, horizontal: 10.0),
-                      border: InputBorder.none,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 14, bottom: 5),
+                    child: TextField(
+                      controller: _textController,
+                      decoration: InputDecoration(
+                        hintText: 'Type a message...',
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 10.0),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
                     ),
                   ),
                 ),

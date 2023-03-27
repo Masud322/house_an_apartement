@@ -54,7 +54,7 @@ class Uplode_Image extends StatefulWidget {
   String _name = '';
   if (snapshot.exists) {
     final Map<String, dynamic>? data = snapshot.data();
-    _name = data!['name'] ?? '';
+    _name = data!['ownername'] ?? '';
   }
 
     _firestore.collection('test').add({

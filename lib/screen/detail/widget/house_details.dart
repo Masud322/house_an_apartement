@@ -5,7 +5,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:house_an_apartement/chat/chatroom.dart';
 
 class House_Details extends StatefulWidget {
-
   House_Details({super.key, required this.data});
   var data;
 
@@ -14,19 +13,18 @@ class House_Details extends StatefulWidget {
 }
 
 class _House_DetailsState extends State<House_Details> {
-  
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final User? _user = FirebaseAuth.instance.currentUser;
 
   // String _name = '';
 
-@override
-void initState() {
-  super.initState();
-  if (_user != null) {
-    // _fetchUserData();
+  @override
+  void initState() {
+    super.initState();
+    if (_user != null) {
+      // _fetchUserData();
+    }
   }
-}
 
   // Future<void> _fetchUserData() async {
   //   final DocumentSnapshot<Map<String, dynamic>> snapshot =
@@ -235,9 +233,9 @@ void initState() {
                           style: const TextStyle(fontSize: 18),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: GestureDetector(
-                            onTap: () {
+                          padding: const EdgeInsets.symmetric(horizontal: 50),
+                          child: ElevatedButton(
+                            onPressed: (() {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -247,15 +245,29 @@ void initState() {
                                   ),
                                 ),
                               );
-                            },
-                            child: Text('Massage now')
+                            }),
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                              backgroundColor: Theme.of(context).primaryColor,
+                            ),
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              child: const Text(
+                                'Message Now',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
                         )
                       ],
                     ),
                   ],
                 ),
-                // child: Text('House Name: ${data.docs[index]['name']}\nLocation: ${data.docs[index]['location']}\ncategory:${data.docs[index]['category']}\ngender: ${data.docs[index]['gender']}\n'),
               ),
             ],
           ),
@@ -264,4 +276,3 @@ void initState() {
     );
   }
 }
-

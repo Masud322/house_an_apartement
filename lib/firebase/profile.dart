@@ -41,7 +41,7 @@ class _Profile_PageState extends State<Profile_Page> {
       final Map<String, dynamic>? data = snapshot.data();
       setState(() {
         _username = data!['username'] ?? '';
-        _name = data['name'] ?? '';
+        _name = data['ownername'] ?? '';
         _profession = data['profession'] ?? '';
         _gender = data['gender'] ?? '';
         _email = data['email'] ?? '';
