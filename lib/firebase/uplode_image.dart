@@ -56,6 +56,7 @@ class Uplode_Image extends StatefulWidget {
     final Map<String, dynamic>? data = snapshot.data();
     _name = data!['ownername'] ?? '';
   }
+  Timestamp timestamp = Timestamp.now(); 
 
     _firestore.collection('test').add({
 
@@ -76,6 +77,7 @@ class Uplode_Image extends StatefulWidget {
       'area': text14,
       'imageURL': downloadUrls,
       'ownername':_name,
+      'timestamp': timestamp,
     });
   }
 

@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:house_an_apartement/chat/chatroom.dart';
 import 'package:house_an_apartement/chat/chatscreen.dart';
+import 'package:house_an_apartement/firebase/form.dart';
 import 'package:house_an_apartement/firebase/form_Page.dart';
-
+import 'package:house_an_apartement/screen/home/widget/phone_auth_page.dart';
 
 import 'package:house_an_apartement/firebase/image.dart';
+import 'package:house_an_apartement/firebase/security/otps_creen.dart';
 
 import 'package:house_an_apartement/firebase/profile.dart';
 import 'package:house_an_apartement/firebase/drawer_header.dart';
@@ -14,7 +16,7 @@ import 'package:house_an_apartement/firebase/drawer_header.dart';
 import 'package:house_an_apartement/firebase/widget.dart';
 import 'package:house_an_apartement/screen/home/widget/allpost.dart';
 import 'package:house_an_apartement/screen/home/widget/categories.dart';
-import 'package:house_an_apartement/screen/home/widget/search_input.dart';
+import 'package:house_an_apartement/screen/home/widget/phone_auth_page.dart';
 import 'package:house_an_apartement/screen/home/widget/welcome_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -69,6 +71,18 @@ class HomePage extends StatelessWidget {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
+          FloatingActionButton(
+            heroTag: 'Test',
+            onPressed: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //       builder: (context) => test7()),
+              // );
+            },
+            child: const Icon(Icons.add),
+          ),
+          const SizedBox(height: 10),
           FloatingActionButton(
             heroTag: 'add',
             onPressed: () {

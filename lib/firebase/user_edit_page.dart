@@ -50,7 +50,7 @@ class _Profile_EditState extends State<Profile_Edit> {
       final Map<String, dynamic>? data = snapshot.data();
       setState(() {
         _username = data!['username'] ?? '';
-        _name = data['name'] ?? '';
+        _name = data['ownername'] ?? '';
         _profession = data['profession'] ?? '';
         _gender = data['gender'] ?? '';
         _email = data['email'] ?? '';
@@ -205,7 +205,7 @@ class _Profile_EditState extends State<Profile_Edit> {
                   child: TextFormField(
                     controller: phoneController,
                     keyboardType: TextInputType.phone,
-                    maxLength: 11,
+                    maxLength: 13,
                     maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     decoration: const InputDecoration(
                       labelText: 'Phone',

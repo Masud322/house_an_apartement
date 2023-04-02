@@ -2,14 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:house_an_apartement/firebase/login.dart';
+import 'package:house_an_apartement/firebase/security/login.dart';
+import 'package:house_an_apartement/firebase/security/otps_creen.dart';
 import 'package:house_an_apartement/firebase/widget.dart';
+import 'package:house_an_apartement/screen/home/widget/phone_auth_page.dart';
 
 final TextEditingController usernameController = TextEditingController();
 final TextEditingController nameController = TextEditingController();
 final TextEditingController professionController = TextEditingController();
 final TextEditingController genderController = TextEditingController();
-final TextEditingController phoneController = TextEditingController();
 final TextEditingController emailController = TextEditingController();
 final TextEditingController passwordController = TextEditingController();
 
@@ -165,28 +166,6 @@ class _SignUpState extends State<SignUp> {
                           height: 12,
                         ),
                         TextFormField(
-                          controller: phoneController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter your number';
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.phone,
-                          maxLines: 1,
-                          maxLength: 11,
-                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                          decoration: const InputDecoration(
-                            labelText: 'Phone Number',
-                            border: OutlineInputBorder(),
-                            hintText: 'Phone Number',
-                            prefixIcon: Icon(Icons.phone),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        TextFormField(
                           controller: emailController,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -259,7 +238,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         Row(
@@ -306,18 +285,20 @@ class _SignUpState extends State<SignUp> {
 
 Future<void> signUp(BuildContext context) async {
   try {
-    final UserCredential userCredential =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: emailController.text,
-      password: passwordController.text,
-    );
-    await setUserDoc(userCredential.user!.uid);
 
     // Navigate to the Login screen if signUp is successful
     // ignore: use_build_context_synchronously
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const Login()),
+      MaterialPageRoute(
+          builder: (context) => PhoneAuthPage(
+                emailController: emailController,
+                genderController: genderController,
+                nameController: nameController,
+                passwordController: passwordController,
+                professionController: professionController,
+                usernameController: usernameController,
+              )),
     );
 
     // ignore: use_build_context_synchronously
@@ -332,25 +313,5 @@ Future<void> signUp(BuildContext context) async {
               content: Text('The account already exists for that email.')),
     );
   } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Please fill in all fields')),
-    );
   }
-}
-
-// Set user data in Firestore
-Future<void> setUserDoc(String uid) async {
-  final CollectionReference usersCollection =
-      FirebaseFirestore.instance.collection('user_profile');
-  final DocumentReference userDoc = usersCollection.doc(uid);
-
-  await userDoc.set({
-    'username': usernameController.text,
-    'ownername': nameController.text,
-    'profession': professionController.text,
-    'gender': genderController.text,
-    'password': passwordController.text,
-    'email': emailController.text,
-    'phone': int.parse(phoneController.text),
-  });
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:house_an_apartement/firebase/login.dart';
+import 'package:house_an_apartement/firebase/security/login.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
