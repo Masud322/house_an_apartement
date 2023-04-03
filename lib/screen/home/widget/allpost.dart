@@ -28,7 +28,8 @@ class _AllPostState extends State<AllPost> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      child: Column(children: [
+      child: Column(
+        children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 10),
           child: TextField(
@@ -263,16 +264,18 @@ class _AllPostState extends State<AllPost> {
                                                 fontWeight: FontWeight.bold),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 26.0),
-                                          child: Text(
-                                            'Posted on ${dateTime.day}/${dateTime.month}/${dateTime.year} at ${dateTime.hour}:${dateTime.minute}',
-                                            style: const TextStyle(
-                                                color: Colors.black87,
-                                                fontSize: 9,
-                                                fontWeight: FontWeight.bold),
-                                          ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                                'Posted on ${dateTime.day}/${dateTime.month}/${dateTime.year} at ${dateTime.hour}:${dateTime.minute}',
+                                                style: const TextStyle(
+                                                    color: Colors.black87,
+                                                    fontSize: 9,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                            
+                                          ],
                                         ),
                                       ],
                                     ),

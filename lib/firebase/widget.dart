@@ -124,8 +124,8 @@ class _LogoutState extends State<Logout> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
+    return GestureDetector(
+      onTap: () {
         logout();
       },
       child: const Text('Logout'),
@@ -142,76 +142,19 @@ class _LogoutState extends State<Logout> {
   }
 }
 
+class About extends StatelessWidget {
+  const About({super.key});
 
-
-
-
-
-// class EditIconButton extends StatefulWidget {
-//   @override
-//   _EditIconButtonState createState() => _EditIconButtonState();
-// }
-
-// class _EditIconButtonState extends State<EditIconButton> {
-//   final picker = ImagePicker();
-//   String? _imageUrl;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _loadImageUrl();
-//   }
-
-//   Future<void> _loadImageUrl() async {
-//     final prefs = await SharedPreferences.getInstance();
-//     setState(() {
-//       _imageUrl = prefs.getString('imageUrl');
-//     });
-//   }
-
-//   Future<void> _saveImageUrl(String url) async {
-//     final prefs = await SharedPreferences.getInstance();
-//     await prefs.setString('imageUrl', url);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       onTap: () async {
-//         final pickedFile =
-//             await picker.getImage(source: ImageSource.gallery);
-//         if (pickedFile != null) {
-//           final Reference storageRef = FirebaseStorage.instance
-//               .ref()
-//               .child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
-
-//           final UploadTask uploadTask =
-//               storageRef.putFile(File(pickedFile.path));
-//           final TaskSnapshot downloadUrl =
-//               (await uploadTask.whenComplete(() {}));
-
-//           final String url = await downloadUrl.ref.getDownloadURL();
-
-//           FirebaseFirestore.instance.collection('images').add({
-//             'url': url,
-//           });
-
-//           _saveImageUrl(url);
-
-//           setState(() {
-//             _imageUrl = url;
-//           });
-//         }
-//       },
-//       child: _imageUrl != null
-//           ? CircleAvatar(
-//               backgroundImage: NetworkImage(_imageUrl!),
-//               radius: 70.0,
-//             )
-//           : Icon(Icons.edit),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return const Card(
+      color: Colors.amber,
+      child: Center(
+        child: Text('No Data'),
+      ),
+    );
+  }
+}
 
 
 

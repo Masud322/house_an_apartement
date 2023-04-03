@@ -1,4 +1,6 @@
+import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:house_an_apartement/chat/chatroom.dart';
@@ -17,101 +19,154 @@ import 'package:house_an_apartement/firebase/widget.dart';
 import 'package:house_an_apartement/screen/home/widget/allpost.dart';
 import 'package:house_an_apartement/screen/home/widget/categories.dart';
 import 'package:house_an_apartement/screen/home/widget/phone_auth_page.dart';
+import 'package:house_an_apartement/screen/home/widget/profile_image.dart';
 import 'package:house_an_apartement/screen/home/widget/welcome_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HomePage extends StatelessWidget {
-
-
-  // Future<String?> _loadImageUrl() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   return prefs.getString('imageUrl');
-  // }
+class HomePage extends StatefulWidget {
   
-  final FirebaseAuth currentUser = FirebaseAuth.instance;
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+
+  FirebaseAuth currentUser = FirebaseAuth.instance;
+  int _notificationCount = 0;
+  StreamSubscription<QuerySnapshot>? _subscription;
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen for changes in the message stream
+    _subscription = FirebaseFirestore.instance
+        .collection('messages')
+        .snapshots()
+        .listen((querySnapshot) {
+      // Increment the notification count whenever new data is available
+      setState(() {
+        _notificationCount += 1;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    // Cancel the subscription to the message stream
+    _subscription?.cancel();
+    super.dispose();
+  }
+
+  // Function to reset the badge notification count
+  void resetNotificationCount() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _notificationCount = 0;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    int _notificationCount = 0;
-
     bool someCondition = false;
 
-    
     return WillPopScope(
       onWillPop: () async {
-        // Do some logic here to determine whether or not to allow the pop
-        // ignore: dead_code
         if (someCondition) {
-          return true; // Allow the pop to occur
+          return true;
         } else {
-          return false; // Prevent the pop
+          return false;
         }
       },
-      child:
-    Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      drawer: AvatarScreen(),
-      appBar: AppBar(
-        backgroundColor: Colors.purple,
-      ),
-      body: 
-         SafeArea(
-           child: SingleChildScrollView(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        drawer: Drawer_Header(),
+        appBar: AppBar(
+          backgroundColor: Colors.purple,
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+               Profile_Image(),
+              ],
+            )
+          ],
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 WelcomeText(),
-                // SearchPage(),
                 AllPost(),
-                // Near_you(),
               ],
             ),
-                 ),
-         ),
-      
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          FloatingActionButton(
-            heroTag: 'Test',
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => test7()),
-              // );
-            },
-            child: const Icon(Icons.add),
           ),
-          const SizedBox(height: 10),
-          FloatingActionButton(
-            heroTag: 'add',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Form_Page()),
-              );
-            },
-            child: const Icon(Icons.add),
-          ),
-          const SizedBox(height: 10),
-          FloatingActionButton(
-            heroTag: 'message',
-            onPressed: () {
-              Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => UserListPage()),
-                  );
-            },
-            child: const Icon(Icons.message_outlined),
-          ),
-        ],
+        ),
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            FloatingActionButton(
+              heroTag: 'add',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Form_Page()),
+                );
+              },
+              child: const Icon(Icons.add),
+            ),
+            const SizedBox(height: 10),
+            Stack(
+              children: <Widget>[
+                FloatingActionButton(
+                  heroTag: 'message',
+                  onPressed: () async {
+                    // Navigate to the chat screen and wait for the result
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserListPage(
+                          notificationCount: _notificationCount,
+                          resetNotificationCount: resetNotificationCount,
+                        ),
+                      ),
+                    ).then((value) => resetNotificationCount());
+                  },
+                  child: const Icon(Icons.message_outlined),
+                ),
+                if (_notificationCount > 0)
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(1),
+                      decoration: BoxDecoration(
+                        color: _notificationCount > 0
+                            ? Colors.red
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 16,
+                        minHeight: 16,
+                      ),
+                      child: Text(
+                        _notificationCount > 0 ? '$_notificationCount' : '',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
 }
-
-
-
-

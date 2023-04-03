@@ -8,20 +8,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AvatarScreen extends StatefulWidget {
-
-
-
+class Drawer_Header extends StatefulWidget {
   @override
-  _AvatarScreenState createState() => _AvatarScreenState();
+  _Drawer_HeaderState createState() => _Drawer_HeaderState();
 }
 
-
-class _AvatarScreenState extends State<AvatarScreen> {
+class _Drawer_HeaderState extends State<Drawer_Header> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final User? _user = FirebaseAuth.instance.currentUser;
-
-  
 
   String _username = '';
   String _email = '';
@@ -47,10 +41,8 @@ class _AvatarScreenState extends State<AvatarScreen> {
   }
 
   final _auth = FirebaseAuth.instance;
-  final _storage = FirebaseStorage.instance;
   late final String? _userId; // Add a field to store the current user's ID
 
-  late File _imageFile;
   late String _imageUrl = '';
 
   Future<void> _loadImageUrl() async {
@@ -71,152 +63,107 @@ class _AvatarScreenState extends State<AvatarScreen> {
     }
   }
 
-  void _saveImageUrl(String imageUrl) async {
-    await FirebaseFirestore.instance.collection('users').doc(_userId).set({
-      'avatarUrl': imageUrl,
-    }, SetOptions(merge: true));
-    // Save the image URL to SharedPreferences
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('avatarUrl', imageUrl);
-  }
-
-  void _pickImage() async {
-    final pickedFile =
-        await ImagePicker().getImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _imageFile = File(pickedFile.path);
-        _imageUrl = "";
-      });
-      _uploadImage();
-    }
-  }
-
-  Future<void> _uploadImage() async {
-    final ref = _storage.ref().child('user-avatars/$_userId.jpg');
-    await ref.putFile(_imageFile);
-    final imageUrl = await ref.getDownloadURL();
-    _saveImageUrl(imageUrl);
-    setState(() {
-      _imageUrl = imageUrl;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 230,
-              width: 305,
-              color: Colors.grey,
-              child: DrawerHeader(
-                child: Stack(
+      child: ListView(
+        children: [
+          Container(
+            height: 192,
+            width: 305,
+            color: Colors.purple,
+            child: DrawerHeader(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: CircleAvatar(
+                    radius: 55,
+                    backgroundImage: _imageUrl != null && _imageUrl.isNotEmpty
+                        ? NetworkImage(_imageUrl)
+                        : null,
+                    child: _imageUrl == null || _imageUrl.isEmpty
+                        ? const Icon(Icons.person_add, size: 27)
+                        : null,
+                  ),
+                ),
+                Column(
                   children: [
-                    CircleAvatar(
-                      radius: 55,
-                      backgroundImage:
-                          _imageUrl != null ? NetworkImage(_imageUrl) : null,
-                      child:
-                          _imageUrl == null ? const Icon(Icons.person, size: 50) : null,
-                    ),
-                    Positioned(
-                      bottom: 45,
-                      right: 90,
-                      left: 20,
-                      top: 70,
-                      child: Container(
-                        width: 5,
-                        height: 5,
-                        padding: const EdgeInsets.only(),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: _pickImage,
-                        ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Text(
+                            'Username: $_username',
+                            style: const TextStyle(
+                              fontSize: 15,
+                              overflow: TextOverflow.ellipsis,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 115,left: 199),
-                        child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        Profile_Page(imageUrl: _imageUrl)),
-                              );
-                            },
-                            child: const Text('Profile')),
-                      
+                    const SizedBox(
+                      height: 3,
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(padding: EdgeInsets.only(top: 120)),
-                        Container(
-                          width: 195,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                   Text(
-                                    'Username: $_username',
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      overflow: TextOverflow.ellipsis,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                              ],
-                            ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Text(
+                            'Email: $_email',
+                            style: const TextStyle(
+                                fontSize: 15,
+                                overflow: TextOverflow.ellipsis,
+                                fontWeight: FontWeight.bold),
                           ),
-                        ),
-                        SizedBox(
-                          height: 3,
-                        ),
-                        Container(
-                          width: 195,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                   Text(
-                                    'Email: $_email',
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        overflow: TextOverflow.ellipsis,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              ),
+              ],
+            )),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.person,
             ),
-              Container(
-                height: 658,
-                color: Colors.blueGrey,
-                child: Center(
-                 child: const Logout(),
-                )
-              )
-          ],
-            
-        ),
+            title: const Text('Profile'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Profile_Page(imageUrl: _imageUrl)),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.info,
+            ),
+            title: const Text('About'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const About()),
+              );
+            },
+          ),
+          const ListTile(
+            leading: Icon(
+              Icons.logout,
+            ),
+            title: Logout(),
+          ),
+        ],
       ),
-      
     );
   }
 }

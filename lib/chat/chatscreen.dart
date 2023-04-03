@@ -4,6 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:house_an_apartement/chat/chatroom.dart';
 
 class UserListPage extends StatefulWidget {
+final int notificationCount;
+  final Function resetNotificationCount;
+
+  const UserListPage({
+    Key? key,
+    required this.notificationCount,
+    required this.resetNotificationCount,
+  }) : super(key: key);
   @override
   _UserListPageState createState() => _UserListPageState();
 }
@@ -17,6 +25,12 @@ class _UserListPageState extends State<UserListPage> {
   List<QueryDocumentSnapshot> _filteredUsers = [];
 
   String _searchQuery = '';
+
+  void dispose() {
+    // Call the resetNotificationCount function before disposing the UserListPage
+    widget.resetNotificationCount();
+    super.dispose();
+  }
 
   @override
   void initState() {

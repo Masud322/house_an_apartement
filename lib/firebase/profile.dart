@@ -3,13 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:house_an_apartement/firebase/user_edit_page.dart';
 import 'package:house_an_apartement/firebase/widget.dart';
+import 'package:house_an_apartement/screen/home/home_page.dart';
 
 // ignore: camel_case_types
 class Profile_Page extends StatefulWidget {
 
 final String imageUrl;
 
-  Profile_Page({required this.imageUrl});
+  Profile_Page({required this.imageUrl,});
 
   @override
   _Profile_PageState createState() => _Profile_PageState();
@@ -70,7 +71,7 @@ class _Profile_PageState extends State<Profile_Page> {
                   backgroundImage: NetworkImage(widget.imageUrl),
                   ),               
                 const SizedBox(
-                  height: 8,
+                  height: 18,
                 ),
                 Container(
                   child: Row(
