@@ -138,11 +138,13 @@ class _AllPostState extends State<AllPost> {
                   final area = doc['area'].toString().toLowerCase();
                   final district = doc['district'].toString().toLowerCase();
                   final division = doc['division'].toString().toLowerCase();
+                  final category = doc['category'].toString().toLowerCase();
                   final searchQuery = _searchQuery.toLowerCase();
                   return name.contains(searchQuery) ||
                       area.contains(searchQuery) ||
                       district.contains(searchQuery) ||
-                      division.contains(searchQuery);
+                      division.contains(searchQuery) ||
+                      category.contains(searchQuery);
                 }).toList();
                 if (_sortBy == 'priceLowToHigh') {
                   filteredDocs.sort((a, b) =>
@@ -184,7 +186,7 @@ class _AllPostState extends State<AllPost> {
                           padding: const EdgeInsets.only(
                               left: 21, right: 21, bottom: 10),
                           child: Container(
-                            height: 100,
+                            height: 120,
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Colors.purple,
@@ -201,7 +203,7 @@ class _AllPostState extends State<AllPost> {
                                     padding: const EdgeInsets.only(
                                         left: 0, right: 15),
                                     child: Container(
-                                      height: 80,
+                                      height: 100,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
                                       ),
@@ -221,7 +223,7 @@ class _AllPostState extends State<AllPost> {
                                 Expanded(
                                   child: Container(
                                     // color: Colors.amber,
-                                    height: 95,
+                                    height: 115,
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -236,7 +238,7 @@ class _AllPostState extends State<AllPost> {
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 17,
+                                                fontSize: 17.5,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                         ),
@@ -245,6 +247,19 @@ class _AllPostState extends State<AllPost> {
                                               const EdgeInsets.only(left: 3.0),
                                           child: Text(
                                             '${'\u{1F4CD}' + filteredDocs[index]['area']} ${filteredDocs[index]['district']}, ${filteredDocs[index]['division']}',
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            '${filteredDocs[index]['category']} House',
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
                                                 color: Colors.black54,
