@@ -31,7 +31,7 @@ class _Profile_ImageState extends State<Profile_Image> {
 
   Future<void> _loadImageUrl() async {
     final userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(_userId).get();
+        await FirebaseFirestore.instance.collection('images').doc(_userId).get();
     final data = userDoc.data();
     if (mounted && data != null && data.containsKey('avatarUrl')) {
       setState(() {
@@ -48,7 +48,7 @@ class _Profile_ImageState extends State<Profile_Image> {
   }
 
   void _saveImageUrl(String imageUrl) async {
-    await FirebaseFirestore.instance.collection('users').doc(_userId).set({
+    await FirebaseFirestore.instance.collection('images').doc(_userId).set({
       'avatarUrl': imageUrl,
     }, SetOptions(merge: true));
     // Save the image URL to SharedPreferences
@@ -81,7 +81,7 @@ class _Profile_ImageState extends State<Profile_Image> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
+      onLongPress: () {
         _changeProfilePicture();
       },
       child: CircleAvatar(

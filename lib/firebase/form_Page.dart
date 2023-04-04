@@ -332,7 +332,8 @@ class _Form_PageState extends State<Form_Page> {
                                   return DropdownButtonFormField(
                                     decoration: InputDecoration(
                                         label: const Text('Parking'),
-                                        prefixIcon: const Icon(Icons.local_parking_sharp),
+                                        prefixIcon: const Icon(
+                                            Icons.local_parking_sharp),
                                         border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -376,11 +377,12 @@ class _Form_PageState extends State<Form_Page> {
                             }
                             return DropdownButtonFormField(
                               decoration: InputDecoration(
-                                  label: const Text('Free Month'),
-                                  prefixIcon: const Icon(Icons.start),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  )),
+                                label: const Text('Free Month'),
+                                prefixIcon: const Icon(Icons.start),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
                               items: items.map((item) {
                                 return DropdownMenuItem(
                                   value: item,
@@ -396,9 +398,7 @@ class _Form_PageState extends State<Form_Page> {
                             );
                           },
                         )),
-                        
                     Padding(
-                      
                       padding: const EdgeInsets.only(
                           left: 25, right: 25, top: 10, bottom: 10),
                       child: TextFormField(
@@ -411,14 +411,12 @@ class _Form_PageState extends State<Form_Page> {
                         },
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
-                          
                           labelText: 'Price',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                           hintText: 'Rent Price',
                           prefixIcon: const Icon(Icons.price_check),
-                          
                         ),
                       ),
                     ),
@@ -438,7 +436,12 @@ class _Form_PageState extends State<Form_Page> {
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.phone),
                           labelText: 'Contact Number',
-                          prefix: const Text('+88 ',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
+                          prefix: const Text(
+                            '+88 ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),

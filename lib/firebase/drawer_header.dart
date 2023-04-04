@@ -47,7 +47,7 @@ class _Drawer_HeaderState extends State<Drawer_Header> {
 
   Future<void> _loadImageUrl() async {
     final userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(_userId).get();
+        await FirebaseFirestore.instance.collection('images').doc(_userId).get();
     final data = userDoc.data();
     if (mounted && data != null && data.containsKey('avatarUrl')) {
       setState(() {

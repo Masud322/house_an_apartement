@@ -58,7 +58,7 @@ class Uplode_Image extends StatefulWidget {
   }
   Timestamp timestamp = Timestamp.now(); 
 
-    _firestore.collection('test').add({
+    _firestore.collection('house_details').add({
 
       'userId': userId,
       'name': text1,
