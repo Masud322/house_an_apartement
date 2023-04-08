@@ -71,7 +71,7 @@ class _Drawer_HeaderState extends State<Drawer_Header> {
           Container(
             height: 192,
             width: 305,
-            color: Colors.purple,
+            color: Color.fromARGB(255, 92, 119, 140),
             child: DrawerHeader(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

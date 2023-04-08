@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:house_an_apartement/firebase/security/otps_creen.dart';
 import 'package:house_an_apartement/firebase/security/signup.dart';
-import 'package:house_an_apartement/screen/home/widget/categories.dart';
 
 class PhoneAuthPage extends StatefulWidget {
   var usernameController;

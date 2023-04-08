@@ -51,6 +51,9 @@ dependencies:
   file_picker: ^5.2.6
   firebase_messaging: ^14.3.0
   intl_phone_number_input: ^0.7.2
+  hideable_bottom_bar: ^0.0.1
+  animated_bottom_navigation_bar: ^1.2.0
+  hidable: ^1.0.3
 
 
   
