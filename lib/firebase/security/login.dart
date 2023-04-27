@@ -2,10 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:house_an_apartement/firebase/profile.dart';
+import 'package:house_an_apartement/firebase/security/forget_page.dart';
 import 'package:house_an_apartement/firebase/security/signup.dart';
 import 'package:house_an_apartement/firebase/widget.dart';
 import 'package:house_an_apartement/screen/home/home_page.dart';
-import 'package:house_an_apartement/screen/home/widget/phone_auth_page.dart';
+import 'package:house_an_apartement/firebase/security/phone_auth_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -160,8 +161,11 @@ class _LoginState extends State<Login> {
                         padding: EdgeInsets.only(left: 190),
                         child: TextButton(
                           onPressed: (){
-                          showDialog(context: context, builder: (context) => Forget_Page(context: context)
-                             );
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Forget_Page(context: context,)),
+                          
+                        );
                         }, child: const Text('Forget Password',style: TextStyle(color: Colors.blue),)),
                       ),
                     

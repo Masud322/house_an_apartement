@@ -8,25 +8,24 @@ import 'package:house_an_apartement/firebase/security/signup.dart';
 
 class PhoneAuthPage extends StatefulWidget {
   var usernameController;
-  
+
   var nameController;
-  
+
   var professionController;
-  
+
   var genderController;
-  
+
   var emailController;
 
   var passwordController;
 
-  PhoneAuthPage({
-    required this.usernameController,
-    required this.nameController,
-    required this.professionController,
-    required this.genderController,
-    required this.emailController,
-    required this.passwordController
-  });
+  PhoneAuthPage(
+      {required this.usernameController,
+      required this.nameController,
+      required this.professionController,
+      required this.genderController,
+      required this.emailController,
+      required this.passwordController});
   @override
   _PhoneAuthPageState createState() => _PhoneAuthPageState();
 }
@@ -54,8 +53,11 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
             _isLoading = false;
           });
           ScaffoldMessenger.of(context).showSnackBar(
-  SnackBar(content: Text(e is FirebaseAuthException ? e.message ?? 'An error occurred' : 'An error occurred')),
-);
+            SnackBar(
+                content: Text(e is FirebaseAuthException
+                    ? e.message ?? 'An error occurred'
+                    : 'An error occurred')),
+          );
         },
         codeSent: (String verificationId, int? resendToken) {
           Navigator.push(
@@ -63,10 +65,17 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
             MaterialPageRoute(
               builder: (context) => OTPScreen(
                 verificationId: verificationId,
-                phoneNumber: _phoneNumber, emailController: widget.emailController, genderController: widget.genderController, nameController: widget.nameController, passwordController: widget.passwordController, professionController: widget.professionController, usernameController: widget.usernameController,
+                phoneNumber: _phoneNumber,
+                emailController: widget.emailController,
+                genderController: widget.genderController,
+                nameController: widget.nameController,
+                passwordController: widget.passwordController,
+                professionController: widget.professionController,
+                usernameController: widget.usernameController,
               ),
             ),
-          );print(nameController);
+          );
+          print(nameController);
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
         timeout: const Duration(seconds: 60),
@@ -87,19 +96,26 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-            const Text('Phone Verification',style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),),
+            const Text(
+              'Phone Verification',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(
               height: 5,
             ),
-            const Text('Enter Your Phone Number',style: TextStyle(fontSize: 18,),),
+            const Text(
+              'Enter Your Phone Number',
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(25.0),
               child: TextFormField(
                 decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter your phone number',
-                  labelText: 'Phone Number'),
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter your phone number',
+                    labelText: 'Phone Number'),
                 keyboardType: TextInputType.phone,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly,
@@ -128,5 +144,3 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
     );
   }
 }
-
-

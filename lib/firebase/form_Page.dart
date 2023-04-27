@@ -101,11 +101,17 @@ class _Form_PageState extends State<Form_Page> {
                             }
                             return DropdownButtonFormField(
                               decoration: InputDecoration(
-                                  label: const Text('Select catrgory'),
+                                  label: const Text('Select category'),
                                   prefixIcon: const Icon(Icons.category),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   )),
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Please select a category';
+                                }
+                                return null;
+                              },
                               items: items.map((item) {
                                 return DropdownMenuItem(
                                   value: item,
@@ -143,11 +149,17 @@ class _Form_PageState extends State<Form_Page> {
                             return DropdownButtonFormField(
                               decoration: InputDecoration(
                                   label: const Text('Requirement'),
-                                  helperText: 'Male/Female/Nothing',
+                                  helperText: 'Male/Female/Both',
                                   prefixIcon: const Icon(Icons.transgender),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   )),
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Please select a requirement';
+                                }
+                                return null;
+                              },
                               items: items.map((item) {
                                 return DropdownMenuItem(
                                   value: item,
@@ -195,6 +207,12 @@ class _Form_PageState extends State<Form_Page> {
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         )),
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'Please select a bedroom';
+                                      }
+                                      return null;
+                                    },
                                     items: items.map((item) {
                                       return DropdownMenuItem(
                                         value: item,
@@ -241,6 +259,12 @@ class _Form_PageState extends State<Form_Page> {
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         )),
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'Please select a bathroom';
+                                      }
+                                      return null;
+                                    },
                                     items: items.map((item) {
                                       return DropdownMenuItem(
                                         value: item,
@@ -291,6 +315,12 @@ class _Form_PageState extends State<Form_Page> {
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         )),
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'Please select a kitchen';
+                                      }
+                                      return null;
+                                    },
                                     items: items.map((item) {
                                       return DropdownMenuItem(
                                         value: item,
@@ -338,6 +368,12 @@ class _Form_PageState extends State<Form_Page> {
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         )),
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'Please select a parking';
+                                      }
+                                      return null;
+                                    },
                                     items: items.map((item) {
                                       return DropdownMenuItem(
                                         value: item,
@@ -383,6 +419,12 @@ class _Form_PageState extends State<Form_Page> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Please select a month';
+                                }
+                                return null;
+                              },
                               items: items.map((item) {
                                 return DropdownMenuItem(
                                   value: item,
@@ -427,7 +469,9 @@ class _Form_PageState extends State<Form_Page> {
                         controller: numberController,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Input contact number';
+                            return 'Please enter your phone number';
+                          } else if (value.length != 11) {
+                            return 'Phone number must be 11 digits long';
                           }
                           return null;
                         },
@@ -445,7 +489,9 @@ class _Form_PageState extends State<Form_Page> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          hintText: 'Number',
+                          hintText: 'Enter your phone number',
+                          errorStyle: const TextStyle(
+                              color: Colors.red), // Added errorStyle
                         ),
                       ),
                     ),

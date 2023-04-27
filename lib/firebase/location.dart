@@ -103,6 +103,12 @@ class _LocationState extends State<Location> {
                             prefixIcon: Icon(Icons.location_searching),
                             labelText: 'Division',
                           ),
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select a division';
+                            }
+                            return null;
+                          },
                         );
                       },
                     ),
@@ -148,6 +154,12 @@ class _LocationState extends State<Location> {
                             prefixIcon: Icon(Icons.location_on),
                             labelText: 'District',
                           ),
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select a district';
+                            }
+                            return null;
+                          },
                         );
                       },
                     ),
@@ -192,50 +204,50 @@ class _LocationState extends State<Location> {
                             prefixIcon: Icon(Icons.location_pin),
                             labelText: 'Area',
                           ),
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select a area';
+                            }
+                            return null;
+                          },
                         );
                       },
                     ),
                   ),
-
                   Padding(
-                    padding: const EdgeInsets.only(left: 250,top: 10),
+                    padding: const EdgeInsets.only(left: 250, top: 10),
                     child: ElevatedButton(
-                            onPressed:
-                            () {print('ok');
-                              if (_formKey.currentState!.validate()) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Uplode_Image(
-                                      text1: widget.text1,
-                                      text2: widget.text2,
-                                      text3: widget.text3,
-                                      text4: widget.text4,
-                                      text5: widget.text5,
-                                      text6: widget.text6,
-                                      text7: widget.text7,
-                                      text8: widget.text8,
-                                      text9: widget.text9,
-                                      text10: widget.text10,
-                                      text11: widget.text11,
-                                      text12: widget._selectedDivision,
-                                      text13: widget._selectedDistrict,
-                                      text14: widget._selectedArea,
-                                
-
-                                    ),
-                                  ),
-                                );
-                              }
-                            },
-                          
-                        
-                      
+                      onPressed: () {
+                        print('ok');
+                        if (_formKey.currentState!.validate()) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Uplode_Image(
+                                text1: widget.text1,
+                                text2: widget.text2,
+                                text3: widget.text3,
+                                text4: widget.text4,
+                                text5: widget.text5,
+                                text6: widget.text6,
+                                text7: widget.text7,
+                                text8: widget.text8,
+                                text9: widget.text9,
+                                text10: widget.text10,
+                                text11: widget.text11,
+                                text12: widget._selectedDivision,
+                                text13: widget._selectedDistrict,
+                                text14: widget._selectedArea,
+                              ),
+                            ),
+                          );
+                        }
+                      },
                       style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.purple),
-                          // Change the color to the desired color
-                        ),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.purple),
+                        // Change the color to the desired color
+                      ),
                       child: const Text(
                         'NEXT>>>',
                         style: TextStyle(

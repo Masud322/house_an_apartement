@@ -50,16 +50,15 @@ class Uplode_Image extends StatefulWidget {
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
     final DocumentSnapshot<Map<String, dynamic>> snapshot =
-      await _firestore.collection('user_profile').doc(userId).get();
-  String _name = '';
-  if (snapshot.exists) {
-    final Map<String, dynamic>? data = snapshot.data();
-    _name = data!['ownername'] ?? '';
-  }
-  Timestamp timestamp = Timestamp.now(); 
+        await _firestore.collection('user_profile').doc(userId).get();
+    String _name = '';
+    if (snapshot.exists) {
+      final Map<String, dynamic>? data = snapshot.data();
+      _name = data!['ownername'] ?? '';
+    }
+    Timestamp timestamp = Timestamp.now();
 
     _firestore.collection('house_details').add({
-
       'userId': userId,
       'name': text1,
       'price': text2,
@@ -76,7 +75,7 @@ class Uplode_Image extends StatefulWidget {
       'district': text13,
       'area': text14,
       'imageURL': downloadUrls,
-      'ownername':_name,
+      'ownername': _name,
       'timestamp': timestamp,
     });
   }
@@ -86,9 +85,6 @@ class Uplode_Image extends StatefulWidget {
 }
 
 class _Uplode_ImageState extends State<Uplode_Image> {
-
-  
-  
   List<File> _imageFiles = [];
   List<String> _downloadUrls = [];
 
@@ -102,7 +98,24 @@ class _Uplode_ImageState extends State<Uplode_Image> {
     }
   }
 
-  Future<List<String>> _uploadImages() async {
+  Future<List<String>?> _uploadImages() async {
+    if (_imageFiles.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Please select at least one image.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+      return null;
+    }
+
     List<String> downloadUrls = [];
 
     for (File file in _imageFiles) {
@@ -183,60 +196,36 @@ class _Uplode_ImageState extends State<Uplode_Image> {
             ),
             ElevatedButton(
               onPressed: () async {
-                List<String> downloadUrls = await _uploadImages();
-                widget._submitData(downloadUrls);
-                showDialog(
-                  context: context,
-                  builder: (context) => BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: AlertDialog(
-                      title: const Text('Success!'),
-                      content: SizedBox(
-                        height: 150,
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(
-                                  Icons.check_circle_outline,
-                                  color: Colors.green,
-                                  size: 50,
-                                ),
-                                const SizedBox(height: 10),
-                                const Text(
-                                  'Images uploaded successfully',
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                const SizedBox(
-                                  height: 12,
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomePage()),
-                                    );
-                                  },
-                                  child: const Text(
-                                    'Ok',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
+                List<String>? downloadUrls = await _uploadImages();
+                if (downloadUrls != null) {
+                  widget._submitData(downloadUrls);
+                  showDialog(
+                    context: context,
+                    builder: (context) => BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                      child: AlertDialog(
+                        title: const Text('Success'),
+                        content: const Text('Data submitted successfully.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()),
+                              );
+                            },
+                            child: const Text('OK'),
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                  ),
-                );
+                  );
+                }
               },
-              child: const Text('Uplode Images'),
+              child: const Text('Uplode Image'),
             ),
           ],
         ),

@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:house_an_apartement/firebase/security/login.dart';
 import 'package:house_an_apartement/firebase/security/otps_creen.dart';
 import 'package:house_an_apartement/firebase/widget.dart';
-import 'package:house_an_apartement/screen/home/widget/phone_auth_page.dart';
+import 'package:house_an_apartement/firebase/security/phone_auth_page.dart';
 
 final TextEditingController usernameController = TextEditingController();
 final TextEditingController nameController = TextEditingController();

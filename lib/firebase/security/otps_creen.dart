@@ -42,76 +42,78 @@ class _OTPScreenState extends State<OTPScreen> {
   final List<TextEditingController> _controllers =
       List.generate(6, (index) => TextEditingController());
 
-  Future<void> _submitOTPCode() async {
-    final form = _formKey.currentState;
-    if (form!.validate()) {
-      form.save();
+Future<void> _submitOTPCode() async {
+  final form = _formKey.currentState;
+  if (form!.validate()) {
+    form.save();
+    setState(() {
+      _isLoading = true;
+    });
+
+    final otpCode = _controllers.fold<String>(
+      '',
+      (previousValue, controller) => previousValue + controller.text,
+    );
+
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: widget.verificationId,
+      smsCode: otpCode,
+    );
+
+    try {
+      // sign in the user with the OTP credential
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // create a new user with the email and password entered by the user
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+
+      // save the user data in the database
+      await setUserDoc(
+        userCredential.user!.uid,
+        widget.usernameController.text,
+        widget.nameController.text,
+        widget.professionController.text,
+        widget.genderController.text,
+        widget.emailController.text,
+        widget.passwordController.text,
+        int.parse(widget.phoneNumber),
+      );
+
+      // navigate to the home page
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+          (route) => false);
+    } on FirebaseAuthException catch (e) {
       setState(() {
-        _isLoading = true;
+        _isLoading = false;
       });
-
-      final otpCode = _controllers.fold<String>(
-        '',
-        (previousValue, controller) => previousValue + controller.text,
+      ScaffoldMessenger.of(context).showSnackBar(
+        e.code == 'weak-password'
+            ? const SnackBar(
+                content: Text('The password provided is too weak.'))
+            : const SnackBar(
+                content: Text('The account already exists for that email.')),
       );
-
-      PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: widget.verificationId,
-        smsCode: otpCode,
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(e is FirebaseAuthException
+                ? e.message ?? 'An error occurred'
+                : 'An error occurred')),
       );
-
-      try {
-        // sign in the user with the OTP credential
-        await FirebaseAuth.instance.signInWithCredential(credential);
-
-        // create a new user with the email and password entered by the user
-        final UserCredential userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-
-        // save the user data in the database
-        await setUserDoc(
-          userCredential.user!.uid,
-          widget.usernameController.text,
-          widget.nameController.text,
-          widget.professionController.text,
-          widget.genderController.text,
-          widget.emailController.text,
-          widget.passwordController.text,
-          int.parse(widget.phoneNumber),
-        );
-
-        // navigate to the home page
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-            (route) => false);
-      } on FirebaseAuthException catch (e) {
-        setState(() {
-          _isLoading = false;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          e.code == 'weak-password'
-              ? const SnackBar(
-                  content: Text('The password provided is too weak.'))
-              : const SnackBar(
-                  content: Text('The account already exists for that email.')),
-        );
-      } catch (e) {
-        setState(() {
-          _isLoading = false;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(e is FirebaseAuthException
-                  ? e.message ?? 'An error occurred'
-                  : 'An error occurred')),
-        );
-      }
     }
   }
+}
+
+
 
   @override
   void dispose() {

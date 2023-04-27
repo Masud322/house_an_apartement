@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:house_an_apartement/firebase/form_Page.dart';
 import 'package:house_an_apartement/firebase/profile.dart';
 import 'package:house_an_apartement/firebase/widget.dart';
 import 'package:image_picker/image_picker.dart';
@@ -141,6 +142,19 @@ class _Drawer_HeaderState extends State<Drawer_Header> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => Profile_Page(imageUrl: _imageUrl)),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.add,
+            ),
+            title: const Text('Add Post'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Form_Page()),
               );
             },
           ),
