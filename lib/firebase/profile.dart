@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:house_an_apartement/firebase/user_edit_page.dart';
 import 'package:house_an_apartement/firebase/widget.dart';
-import 'package:house_an_apartement/screen/home/home_page.dart';
+import 'package:house_an_apartement/home_page.dart';
 
 // ignore: camel_case_types
 class Profile_Page extends StatefulWidget {

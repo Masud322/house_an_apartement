@@ -2,10 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:house_an_apartement/firebase/profile.dart';
-import 'package:house_an_apartement/firebase/security/forget_page.dart';
 import 'package:house_an_apartement/firebase/security/signup.dart';
 import 'package:house_an_apartement/firebase/widget.dart';
-import 'package:house_an_apartement/screen/home/home_page.dart';
+import 'package:house_an_apartement/home_page.dart';
 import 'package:house_an_apartement/firebase/security/phone_auth_page.dart';
 
 Future<void> main() async {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:house_an_apartement/firebase/security/login.dart';
 import 'package:house_an_apartement/firebase/security/signup.dart';
 import 'package:house_an_apartement/model/splashscreen.dart';
-import 'package:house_an_apartement/screen/home/home_page.dart';
+import 'package:house_an_apartement/home_page.dart';
 
 
 Future<void> main() async {

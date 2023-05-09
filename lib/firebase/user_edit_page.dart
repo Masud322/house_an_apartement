@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:house_an_apartement/firebase/profile.dart';
 import 'package:house_an_apartement/firebase/widget.dart';
-import 'package:house_an_apartement/screen/home/home_page.dart';
+import 'package:house_an_apartement/home_page.dart';
 
 final TextEditingController usernameController = TextEditingController();
 final TextEditingController nameController = TextEditingController();

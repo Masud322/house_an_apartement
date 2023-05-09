@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:house_an_apartement/firebase/form_Page.dart';
 import 'package:house_an_apartement/firebase/profile.dart';
 import 'package:house_an_apartement/firebase/widget.dart';
+import 'package:house_an_apartement/screen/about_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -166,7 +167,7 @@ class _Drawer_HeaderState extends State<Drawer_Header> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const About()),
+                MaterialPageRoute(builder: (context) => const AboutPage()),
               );
             },
           ),

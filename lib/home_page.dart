@@ -4,9 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:house_an_apartement/firebase/drawer.dart';
 import 'package:house_an_apartement/firebase/widget.dart';
-import 'package:house_an_apartement/screen/home/widget/allpost.dart';
-import 'package:house_an_apartement/screen/home/widget/profile_image.dart';
-import 'package:house_an_apartement/screen/home/widget/welcome_text.dart';
+import 'package:house_an_apartement/screen/allpost.dart';
+import 'package:house_an_apartement/screen/profile_image.dart';
+import 'package:house_an_apartement/screen/welcome_text.dart';
 
 class HomePage extends StatefulWidget {
   @override

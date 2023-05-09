@@ -145,20 +145,6 @@ class _LogoutState extends State<Logout> {
   }
 }
 
-class About extends StatelessWidget {
-  const About({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Card(
-      color: Colors.amber,
-      child: Center(
-        child: Text('No Data'),
-      ),
-    );
-  }
-}
-
 class Floating_Button extends StatefulWidget {
   const Floating_Button({super.key});
 

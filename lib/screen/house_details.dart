@@ -26,21 +26,12 @@ class _House_DetailsState extends State<House_Details> {
     }
   }
 
-  // Future<void> _fetchUserData() async {
-  //   final DocumentSnapshot<Map<String, dynamic>> snapshot =
-  //       await _firestore.collection('user_profile').doc(_user!.uid).get();
-  //   if (snapshot.exists) {
-  //     final Map<String, dynamic>? data = snapshot.data();
-  //     setState(() {
-  //       _name = data!['name'] ?? '';
-  //     });
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.purple,
+      ),
       body: SafeArea(
           child: SingleChildScrollView(
         child: Center(
